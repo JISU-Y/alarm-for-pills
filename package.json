@@ -1,0 +1,27 @@
+{
+  "name": "alarm-for-pills",
+  "version": "1.0.0",
+  "description": "alarm-for-pills description",
+  "main": "index.js",
+  "author": "JISU-Y",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.1"
+  },
+  "scripts": {
+    "dev": "webpack server --progress --mode development",
+    "build": "webpack --progress --mode production"
+  }
+}
