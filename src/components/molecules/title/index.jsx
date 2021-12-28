@@ -1,7 +1,7 @@
 import React from 'react'
-import TitleText from './atoms/titleText'
-import InfoText from './atoms/textbox'
-import ToggleButton from './atoms/toggleButton'
+import TitleText from './atoms/TitleText'
+import InfoText from './atoms/Textbox'
+import ToggleButton from './atoms/ToggleButton'
 
 const Title = () => {
   return (

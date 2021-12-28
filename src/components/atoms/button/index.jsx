@@ -1,7 +1,23 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const index = ({ label }) => {
-  return <button>{label}</button>
+import styled from 'styled-components'
+
+const Button = ({ label }) => {
+  return <StyledButton>{label}</StyledButton>
 }
 
-export default index
+const StyledButton = styled.button`
+  font-size: 16px;
+  padding: 0.5rem 1rem;
+  background-color: aqua;
+  border: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+`
+
+Button.propTypes = {
+  label: PropTypes.string.isRequired,
+}
+
+export default Button

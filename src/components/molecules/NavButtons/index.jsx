@@ -1,5 +1,5 @@
 import React from 'react'
-import NavIcon from '../../atoms/icon'
+import NavIcon from '../../atoms/Icon'
 
 const NavButtons = () => {
   return (

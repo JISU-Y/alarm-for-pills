@@ -1,9 +1,21 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const index = ({ text }) => {
-  return <p>{text}</p>
+import styled from 'styled-components'
+
+const Content = ({ text, underline }) => {
+  return <TextContent underline={underline}>{text}</TextContent>
 }
 
-// underline 있을 건지 없을 건지
+const TextContent = styled.p`
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-bottom: ${(props) => (props.underline ? '1px solid black' : 'none')};
+`
 
-export default index
+Content.propTypes = {
+  text: PropTypes.string.isRequired,
+  underline: PropTypes.bool.isRequired,
+}
+
+export default Content

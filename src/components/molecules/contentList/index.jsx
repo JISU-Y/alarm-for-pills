@@ -1,5 +1,5 @@
 import React from 'react'
-import Content from './atoms/content'
+import Content from './atoms/Content'
 
 const ContentList = () => {
   return (

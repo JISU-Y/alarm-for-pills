@@ -1,7 +1,12 @@
 import React from 'react'
 
-const index = ({ title }) => {
-  return <h3>{title}</h3>
+const TitleText = () => {
+  return (
+    <h3>
+      title text component
+      {/* {title} */}
+    </h3>
+  )
 }
 
-export default index
+export default TitleText

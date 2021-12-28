@@ -1,7 +1,12 @@
 import React from 'react'
 
-const NavIcon = ({ navIcon }) => {
-  return <div>{navIcon}</div>
+const NavIcon = () => {
+  return (
+    <div>
+      NavIcon Component
+      {/* {navIcon} */}
+    </div>
+  )
 }
 
 export default NavIcon
