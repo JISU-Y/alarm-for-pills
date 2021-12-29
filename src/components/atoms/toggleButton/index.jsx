@@ -1,7 +1,8 @@
 import React from 'react'
+import { BsCaretDownFill } from 'react-icons/bs'
 
 const ToggleButton = () => {
-  return <button>삼각형</button>
+  return <BsCaretDownFill />
 }
 
 export default ToggleButton

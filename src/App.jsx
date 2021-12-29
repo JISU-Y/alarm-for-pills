@@ -1,15 +1,17 @@
 import React from 'react'
-import Button from './components/atoms/Button'
-import Content from './components/atoms/Content'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
 
 const App = () => {
   return (
-    <div>
-      <Button label="추가하기" />
-      <Content text="소염제" underline={true} />
-      <div>App Component(routing)</div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
       <div>Navbar Component</div>
-    </div>
+    </>
   )
 }
 

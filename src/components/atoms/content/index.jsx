@@ -8,7 +8,6 @@ const Content = ({ text, underline }) => {
 }
 
 const TextContent = styled.p`
-  width: 100%;
   padding: 0.5rem 1rem;
   border-bottom: ${(props) => (props.underline ? '1px solid black' : 'none')};
 `
