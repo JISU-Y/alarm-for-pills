@@ -5,12 +5,12 @@ import InfoText from '../../atoms/Textbox'
 import ToggleButton from '../../atoms/ToggleButton'
 import styled from 'styled-components'
 
-const Title = ({ title, infoText }) => {
+const Title = ({ title, infoText, toggle }) => {
   return (
     <TitleBox>
       <TitleText title={title} />
       <InfoText size="small" text={infoText} />
-      <ToggleButton />
+      {toggle && <ToggleButton />}
     </TitleBox>
   )
 }
@@ -25,6 +25,7 @@ const TitleBox = styled.div`
 Title.propTypes = {
   title: PropTypes.string.isRequired,
   infoText: PropTypes.string.isRequired,
+  toggle: PropTypes.bool.isRequired,
 }
 
 export default Title

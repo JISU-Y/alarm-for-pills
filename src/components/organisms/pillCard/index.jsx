@@ -8,7 +8,11 @@ import Button from '../../atoms/Button'
 const PillCard = ({ sectionTitle, pills, button }) => {
   return (
     <Card>
-      <Title title={sectionTitle} infoText={`${pills[0]} 외 ${pills.length - 1} 종 `} />
+      <Title
+        title={sectionTitle}
+        infoText={`${pills[0]} 외 ${pills.length - 1} 종 `}
+        toggle={true}
+      />
       <ContentList lists={pills} />
       {button && <Button label="추가하기" />}
     </Card>

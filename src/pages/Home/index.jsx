@@ -1,5 +1,6 @@
 import React from 'react'
 import PillCard from '../../components/organisms/PillCard'
+import Timeline from '../../components/organisms/Timeline'
 
 // pills는 db에서 받아오는 것
 
@@ -13,7 +14,7 @@ const Home = () => {
         pills={['종합비타민', '홍삼', '오메가3', '비타민B']}
         button={true}
       />
-      <div>TimeLine component</div>
+      <Timeline />
     </div>
   )
 }

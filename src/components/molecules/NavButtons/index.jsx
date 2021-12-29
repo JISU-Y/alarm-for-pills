@@ -22,7 +22,11 @@ const NavButtons = () => {
 const NavContainer = styled.div`
   display: flex;
   width: 100%;
+  max-width: 600px;
+  height: 50px;
   justify-content: space-around;
+  align-items: center;
+  background-color: bisque;
 `
 
 export default NavButtons
