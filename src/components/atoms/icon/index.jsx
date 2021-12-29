@@ -1,12 +1,13 @@
 import React from 'react'
 
-const NavIcon = () => {
-  return (
-    <div>
-      NavIcon Component
-      {/* {navIcon} */}
-    </div>
-  )
+import PropTypes from 'prop-types'
+
+const NavIcon = ({ navIcon }) => {
+  return <div>{navIcon}</div>
+}
+
+NavIcon.propTypes = {
+  navIcon: PropTypes.string.isRequired,
 }
 
 export default NavIcon

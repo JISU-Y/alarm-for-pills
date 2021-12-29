@@ -5,12 +5,12 @@ import ContentList from '../../molecules/ContentList'
 import styled from 'styled-components'
 import Button from '../../atoms/Button'
 
-const PillCard = ({ sectionTitle, pills }) => {
+const PillCard = ({ sectionTitle, pills, button }) => {
   return (
     <Card>
       <Title title={sectionTitle} infoText={`${pills[0]} 외 ${pills.length - 1} 종 `} />
       <ContentList lists={pills} />
-      <Button label="추가하기" />
+      {button && <Button label="추가하기" />}
     </Card>
   )
 }
@@ -27,6 +27,7 @@ const Card = styled.div`
 PillCard.propTypes = {
   sectionTitle: PropTypes.string.isRequired,
   pills: PropTypes.array.isRequired,
+  button: PropTypes.bool.isRequired,
 }
 
 export default PillCard
