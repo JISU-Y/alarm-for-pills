@@ -1,7 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const index = ({ title }) => {
-  return <h3>{title}</h3>
+const TitleText = ({ title }) => {
+  return <h2>{title}</h2>
 }
 
-export default index
+TitleText.propTypes = {
+  title: PropTypes.string.isRequired,
+}
+
+export default TitleText

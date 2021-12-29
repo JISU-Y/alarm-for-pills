@@ -1,14 +1,19 @@
 import React from 'react'
-import Content from './atoms/content'
+import PropTypes from 'prop-types'
+import Content from '../../atoms/Content'
 
-const ContentList = () => {
+const ContentList = ({ lists }) => {
   return (
     <div>
-      <Content text="소염제" />
-      <Content text="소화제" />
-      <Content text="위장약" />
+      {lists.map((list) => (
+        <Content key={list} text={list} underline={true} />
+      ))}
     </div>
   )
+}
+
+ContentList.propTypes = {
+  lists: PropTypes.array.isRequired,
 }
 
 export default ContentList

@@ -1,16 +1,31 @@
 import React from 'react'
-import TitleText from './atoms/titleText'
-import InfoText from './atoms/textbox'
-import ToggleButton from './atoms/toggleButton'
+import PropTypes from 'prop-types'
+import TitleText from '../../atoms/TitleText'
+import InfoText from '../../atoms/Textbox'
+import ToggleButton from '../../atoms/ToggleButton'
+import styled from 'styled-components'
 
-const Title = () => {
+const Title = ({ title, infoText, toggle }) => {
   return (
-    <div>
-      <TitleText title="약" />
-      <InfoText />
-      <ToggleButton />
-    </div>
+    <TitleBox>
+      <TitleText title={title} />
+      <InfoText size="small" text={infoText} />
+      {toggle && <ToggleButton />}
+    </TitleBox>
   )
+}
+
+const TitleBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+Title.propTypes = {
+  title: PropTypes.string.isRequired,
+  infoText: PropTypes.string.isRequired,
+  toggle: PropTypes.bool.isRequired,
 }
 
 export default Title
