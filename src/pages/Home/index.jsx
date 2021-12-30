@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import PillCard from '../../components/organisms/PillCard'
 import Timeline from '../../components/organisms/Timeline'
 
@@ -6,8 +7,7 @@ import Timeline from '../../components/organisms/Timeline'
 
 const Home = () => {
   return (
-    <div>
-      Home Component
+    <Container>
       <PillCard sectionTitle="약" pills={['소화제', '소염제', '위장약']} button={true} />
       <PillCard
         sectionTitle="영양제"
@@ -15,8 +15,15 @@ const Home = () => {
         button={true}
       />
       <Timeline />
-    </div>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 10px;
+`
 
 export default Home

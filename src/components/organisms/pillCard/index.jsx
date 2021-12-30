@@ -20,9 +20,8 @@ const PillCard = ({ sectionTitle, pills, button }) => {
 }
 
 const Card = styled.div`
-  width: 200px;
   background-color: beige;
-  padding: 2rem 3rem;
+  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
   border-radius: 10px;

@@ -30,7 +30,7 @@ const MobileBox = styled.div`
   overflow: hidden;
   position: relative;
   border-radius: 30px;
-  padding: 0.5rem 1.5rem;
+  padding: 1rem 1.5rem;
 `
 
 export default App
