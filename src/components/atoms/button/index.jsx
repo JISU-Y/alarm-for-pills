@@ -3,8 +3,12 @@ import PropTypes from 'prop-types'
 
 import styled from 'styled-components'
 
-const Button = ({ label, float }) => {
-  return <StyledButton float={float}>{label}</StyledButton>
+const Button = ({ label, float, onClick }) => {
+  return (
+    <StyledButton float={float} onClick={onClick}>
+      {label}
+    </StyledButton>
+  )
 }
 
 const StyledButton = styled.button`
@@ -18,13 +22,14 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   position: ${(props) => (props.float ? 'absolute' : 'static')};
-  bottom: ${(props) => (props.float ? '100px' : 'none')};
-  right: ${(props) => (props.float ? '50px' : 'none')};
+  bottom: ${(props) => (props.float ? '20px' : 'none')};
+  right: ${(props) => (props.float ? '20px' : 'none')};
 `
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   float: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
 }
 
 export default Button

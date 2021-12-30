@@ -15,6 +15,7 @@ const PillContent = ({ list, withTag }) => {
 
 const Container = styled.div`
   display: flex;
+  align-items: center;
 `
 
 PillContent.propTypes = {
