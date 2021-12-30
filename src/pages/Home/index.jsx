@@ -22,7 +22,7 @@ const Home = () => {
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 300px 550px;
   grid-gap: 10px;
 `
 

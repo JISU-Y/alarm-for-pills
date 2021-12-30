@@ -25,6 +25,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  overflow: hidden;
 `
 
 PillCard.propTypes = {
