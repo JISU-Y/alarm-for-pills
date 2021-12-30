@@ -32,6 +32,7 @@ const MobileBox = styled.div`
   border-radius: 30px;
   padding: 1rem 1.5rem;
   padding-bottom: 70px;
+  margin: auto;
 `
 
 export default App
