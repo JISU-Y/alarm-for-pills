@@ -8,11 +8,17 @@ import Timeline from '../../components/organisms/Timeline'
 const Home = () => {
   return (
     <Container>
-      <PillCard sectionTitle="약" pills={['소화제', '소염제', '위장약']} button={true} />
+      <PillCard
+        sectionTitle="약"
+        pills={['소화제', '소염제', '위장약']}
+        button={true}
+        withTag={false}
+      />
       <PillCard
         sectionTitle="영양제"
         pills={['종합비타민', '홍삼', '오메가3', '비타민B']}
         button={true}
+        withTag={false}
       />
       <Timeline />
     </Container>
