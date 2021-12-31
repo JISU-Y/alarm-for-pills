@@ -11,9 +11,13 @@ const initialState = {
   type: '약',
   name: '',
   freq: '하루에 n번',
+  freqDetail: '',
   many: 0,
+  time: '',
   left: 0,
 }
+
+const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
 
 const Modal = ({ closeModal }) => {
   const [formData, setFormData] = useState(initialState)
@@ -21,9 +25,10 @@ const Modal = ({ closeModal }) => {
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
-    console.log(e.target.id)
-    console.log(e.target.value)
-    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }))
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }))
   }
 
   const handleSubmit = () => {
@@ -32,6 +37,8 @@ const Modal = ({ closeModal }) => {
       console.log('no input modal')
       return
     }
+
+    console.log(formData)
 
     dispatch(createPill(formData))
 
@@ -55,7 +62,7 @@ const Modal = ({ closeModal }) => {
             <Input id="name" onChange={handleChange} />
           </SelectContainer>
           <SelectContainer>
-            <Textbox text="빈도수" size="mid" />
+            <Textbox text="복용 주기" size="mid" />
             <Select onChange={handleChange} id="freq">
               <Option value="하루에 n번">하루에 n번</Option>
               <Option value="n일에 한 번">n일에 한 번</Option>
@@ -63,8 +70,31 @@ const Modal = ({ closeModal }) => {
             </Select>
           </SelectContainer>
           <SelectContainer>
+            <Textbox text="복용 주기 상세" size="mid" />
+            {formData.freq === '요일마다' ? (
+              dayOfWeek.map((day) => (
+                <div key={day}>
+                  <Input
+                    type="checkbox"
+                    id="freqDetail"
+                    value={`${day}요일마다`}
+                    onclick={handleChange}
+                  />
+                  <label htmlFor={`${day}요일마다`}>{day}요일마다</label>
+                </div>
+              ))
+            ) : (
+              <Input type={'number'} id="freqDetail" onChange={handleChange} />
+            )}
+          </SelectContainer>
+          <SelectContainer>
             <Textbox text="복용량" size="mid" />
             <Input type={'number'} id="many" onChange={handleChange} />
+          </SelectContainer>
+          {/* 2개 이상 선택 시 시간 선택 늘어나기 */}
+          <SelectContainer>
+            <Textbox text="복용 시간" size="mid" />
+            <Input type={'time'} id="time" onChange={handleChange} />
           </SelectContainer>
           <SelectContainer>
             <Textbox text="잔여량" size="mid" />
@@ -91,7 +121,6 @@ const ModalContainer = styled.div`
 
 const ModalWrap = styled.div`
   width: 400px;
-  height: 600px;
   background-color: #fff;
   position: absolute;
   top: 50%;
