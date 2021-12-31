@@ -10,11 +10,11 @@ const PillCard = ({ sectionTitle, pills, button, withTag }) => {
     <Card>
       <Title
         title={sectionTitle}
-        infoText={`${pills[0]} 외 ${pills.length - 1} 종 `}
+        infoText={pills.length > 1 ? `${pills[0].name} 외 ${pills.length - 1} 종` : ''}
         toggle={true}
       />
       {pills.map((pill) => (
-        <PillContent key={pill} list={pill} withTag={withTag} />
+        <PillContent key={pill.name} list={pill.name} withTag={withTag} />
       ))}
       {button && <Button label="추가하기" float={false} />}
     </Card>

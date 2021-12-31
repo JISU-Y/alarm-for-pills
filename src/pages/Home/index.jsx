@@ -1,25 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PillCard from '../../components/organisms/PillCard'
 import Timeline from '../../components/organisms/Timeline'
 
-// pills는 db에서 받아오는 것
-
 const Home = () => {
+  const pills = useSelector((state) => state.pills.pills)
+  const drugs = pills.filter((pill) => pill.type === '약')
+  const supps = pills.filter((pill) => pill.type === '영양제')
+
   return (
     <Container>
-      <PillCard
-        sectionTitle="약"
-        pills={['소화제', '소염제', '위장약']}
-        button={true}
-        withTag={false}
-      />
-      <PillCard
-        sectionTitle="영양제"
-        pills={['종합비타민', '홍삼', '오메가3', '비타민B']}
-        button={true}
-        withTag={false}
-      />
+      <PillCard sectionTitle="약" pills={drugs} button={false} withTag={false} />
+      <PillCard sectionTitle="영양제" pills={supps} button={false} withTag={false} />
       <Timeline />
     </Container>
   )

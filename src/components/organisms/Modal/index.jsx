@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import Button from '../../atoms/Button'
 import Textbox from '../../atoms/Textbox'
 import TitleText from '../../atoms/TitleText'
+import { useDispatch } from 'react-redux'
+import { createPill } from '../../../redux'
 
 const initialState = {
   type: '약',
@@ -15,6 +17,8 @@ const initialState = {
 
 const Modal = ({ closeModal }) => {
   const [formData, setFormData] = useState(initialState)
+
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     console.log(e.target.id)
@@ -29,7 +33,7 @@ const Modal = ({ closeModal }) => {
       return
     }
 
-    console.log(formData)
+    dispatch(createPill(formData))
 
     closeModal()
   }
