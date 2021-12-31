@@ -19,7 +19,7 @@ const Timeline = () => {
             },
           ],
         }}
-        hoursInterval={{ from: 9, to: 21 }}
+        hoursInterval={{ from: 9, to: 20 }}
         timeLabel={'시간'}
       />
     </TLContainer>

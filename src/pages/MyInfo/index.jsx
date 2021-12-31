@@ -5,7 +5,7 @@ const MyInfo = () => {
   return (
     <div>
       my info component
-      <Button label="로그인 하기" />
+      <Button label="로그인 하기" float={false} />
     </div>
   )
 }
