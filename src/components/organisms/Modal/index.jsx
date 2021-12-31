@@ -1,17 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Button from '../../atoms/Button'
 import Textbox from '../../atoms/Textbox'
 import TitleText from '../../atoms/TitleText'
 
+const initialState = {
+  type: '약',
+  name: '',
+  freq: '하루에 n번',
+  many: 0,
+  left: 0,
+}
+
 const Modal = ({ closeModal }) => {
+  const [formData, setFormData] = useState(initialState)
+
   const handleChange = (e) => {
+    console.log(e.target.id)
     console.log(e.target.value)
+    setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }))
   }
 
-  const handleSubmit = (e) => {
-    console.log(e.target.value)
+  const handleSubmit = () => {
+    if (Object.values(formData).includes('') || Object.values(formData).includes(0)) {
+      // no input early return
+      console.log('no input modal')
+      return
+    }
+
+    console.log(formData)
+
     closeModal()
   }
 
@@ -22,22 +41,18 @@ const Modal = ({ closeModal }) => {
         <div>
           <SelectContainer>
             <Textbox text="약 / 영양제" size="mid" />
-            <Select onChange={handleChange}>
+            <Select onChange={handleChange} id="type">
               <Option value="약">약</Option>
               <Option value="영양제">영양제</Option>
             </Select>
           </SelectContainer>
           <SelectContainer>
             <Textbox text="약 이름" size="mid" />
-            <Input
-              onChange={() => {
-                console.log('Input onChange')
-              }}
-            />
+            <Input id="name" onChange={handleChange} />
           </SelectContainer>
           <SelectContainer>
             <Textbox text="빈도수" size="mid" />
-            <Select onChange={handleChange}>
+            <Select onChange={handleChange} id="freq">
               <Option value="하루에 n번">하루에 n번</Option>
               <Option value="n일에 한 번">n일에 한 번</Option>
               <Option value="요일마다">요일마다</Option>
@@ -45,21 +60,11 @@ const Modal = ({ closeModal }) => {
           </SelectContainer>
           <SelectContainer>
             <Textbox text="복용량" size="mid" />
-            <Input
-              type={'number'}
-              onChange={() => {
-                console.log('복용량 Input onChange')
-              }}
-            />
+            <Input type={'number'} id="many" onChange={handleChange} />
           </SelectContainer>
           <SelectContainer>
             <Textbox text="잔여량" size="mid" />
-            <Input
-              type={'number'}
-              onChange={() => {
-                console.log('잔여량 Input onChange')
-              }}
-            />
+            <Input type={'number'} id="left" onChange={handleChange} />
           </SelectContainer>
         </div>
         <div>
