@@ -25,7 +25,7 @@ const App = () => {
 
 const MobileBox = styled.div`
   max-width: 480px;
-  height: 850px;
+  height: 820px;
   background-color: gray;
   overflow: hidden;
   position: relative;

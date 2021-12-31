@@ -28,6 +28,7 @@ const Card = styled.div`
   flex-direction: column;
   border-radius: 10px;
   margin-bottom: 10px;
+  height: fit-content;
   overflow: hidden;
 `
 
