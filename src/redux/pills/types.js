@@ -1,2 +1,5 @@
 export const CREATE_PILL = 'CREATE_PILL'
 export const DELETE_PILL = 'DELETE_PILL'
+export const UPDATE_PILL = 'UPDATE_PILL'
+export const OPEN_MODAL = 'OPEN_MODAL'
+export const CLOSE_MODAL = 'CLOSE_MODAL'

@@ -3,17 +3,22 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import TitleText from '../../atoms/TitleText'
 import { useDispatch } from 'react-redux'
-import { deletePill } from '../../../redux'
+import { deletePill, openModal } from '../../../redux'
 
 const PillCard = ({ pill, timeInfo, shortInfo }) => {
   const dispatch = useDispatch()
 
-  const handleClick = () => {
+  const deleteCard = () => {
     dispatch(deletePill(pill.name))
   }
 
+  const showPillData = () => {
+    console.log(pill)
+    dispatch(openModal(pill))
+  }
+
   return (
-    <Card isFromHome={timeInfo}>
+    <Card isFromHome={timeInfo} onClick={showPillData}>
       {timeInfo && <TimeTag>{pill.time}시</TimeTag>}
       <MainInfo shortInfo={shortInfo}>
         <div>
@@ -34,7 +39,7 @@ const PillCard = ({ pill, timeInfo, shortInfo }) => {
       </MainInfo>
       {!shortInfo && (
         <>
-          <DeleteBtn onClick={handleClick}>X</DeleteBtn>
+          <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
         </>
       )}

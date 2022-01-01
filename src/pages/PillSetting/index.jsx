@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Button from '../../components/atoms/Button'
 import TitleText from '../../components/atoms/TitleText'
 import Modal from '../../components/organisms/Modal'
 import PillCard from '../../components/organisms/PillCard'
+import { openModal } from '../../redux'
 
 // const pills = [
 //   {
@@ -28,14 +30,14 @@ import PillCard from '../../components/organisms/PillCard'
 // ]
 
 const PillSetting = () => {
-  const [shouldOpenModal, setShouldOpenModal] = useState(false)
-  const pills = useSelector((state) => state.pills.pills)
+  const pillsState = useSelector((state) => state.pills)
+  const dispatch = useDispatch()
+  const pills = pillsState.pills
+  const shouldOpenModal = pillsState.isModalOpen
 
-  const openModal = () => {
-    setShouldOpenModal(true)
-  }
-  const closeModal = () => {
-    setShouldOpenModal(false)
+  const handlePlusBtnClick = () => {
+    console.log('button clicked')
+    dispatch(openModal())
   }
 
   return (
@@ -45,9 +47,9 @@ const PillSetting = () => {
         {pills.map((pill) => (
           <PillCard key={pill.name} pill={pill} />
         ))}
-        <Button label="+" float={true} onClick={openModal} />
+        <Button label="+" float={true} onClick={handlePlusBtnClick} />
       </PillContainer>
-      {shouldOpenModal && <Modal closeModal={closeModal} />}
+      {shouldOpenModal && <Modal />}
     </>
   )
 }
