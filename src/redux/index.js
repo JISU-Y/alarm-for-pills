@@ -1,1 +1,1 @@
-export { createPill } from './pills/actions'
+export { createPill, deletePill } from './pills/actions'

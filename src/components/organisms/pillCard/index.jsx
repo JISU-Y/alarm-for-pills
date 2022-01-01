@@ -2,14 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import TitleText from '../../atoms/TitleText'
+import { useDispatch } from 'react-redux'
+import { deletePill } from '../../../redux'
 
 const PillCard = ({ pill, timeInfo, shortInfo }) => {
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(deletePill(pill.name))
+  }
+
   return (
     <Card isFromHome={timeInfo}>
       {timeInfo && <TimeTag>{pill.time}시</TimeTag>}
       <MainInfo shortInfo={shortInfo}>
         <div>
-          <TitleText title={pill.name} />
+          <TitleText title={pill.name} marginBottom="0" />
           <PillType>{pill.type}</PillType>
         </div>
         {shortInfo ? (
@@ -26,7 +34,7 @@ const PillCard = ({ pill, timeInfo, shortInfo }) => {
       </MainInfo>
       {!shortInfo && (
         <>
-          <DeleteBtn>X</DeleteBtn>
+          <DeleteBtn onClick={handleClick}>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
         </>
       )}
@@ -92,6 +100,9 @@ const DeleteBtn = styled.button`
   border: none;
   border-radius: 5px;
   background-color: tomato;
+  width: 20px;
+  height: 20px;
+  text-align: center;
 `
 
 PillCard.propTypes = {
