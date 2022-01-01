@@ -6,6 +6,8 @@
   "author": "JISU-Y",
   "license": "MIT",
   "dependencies": {
+    "@babel/runtime": "^7.16.7",
+    "firebase": "^9.6.1",
     "prop-types": "^15.8.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -14,6 +16,7 @@
     "react-router-dom": "6",
     "react-timetable-events": "^1.1.0",
     "redux": "^4.1.2",
+    "redux-saga": "^1.1.3",
     "styled-components": "^5.3.3"
   },
   "devDependencies": {

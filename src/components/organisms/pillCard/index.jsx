@@ -5,27 +5,29 @@ import TitleText from '../../atoms/TitleText'
 import { useDispatch } from 'react-redux'
 import { deletePill, openModal } from '../../../redux'
 
-const PillCard = ({ pill, timeInfo, shortInfo }) => {
+const PillCard = ({ pill, isFromHome, id }) => {
   const dispatch = useDispatch()
 
   const deleteCard = () => {
-    dispatch(deletePill(pill.name))
+    dispatch(deletePill(id))
   }
 
-  const showPillData = () => {
+  const showPillData = (e) => {
+    if (isFromHome) return
+    if (e.target !== e.currentTarget) return // event bubbling 방지
     console.log(pill)
     dispatch(openModal(pill))
   }
 
   return (
-    <Card isFromHome={timeInfo} onClick={showPillData}>
-      {timeInfo && <TimeTag>{pill.time}시</TimeTag>}
-      <MainInfo shortInfo={shortInfo}>
+    <Card isFromHome={isFromHome} onClick={showPillData}>
+      {isFromHome && <TimeTag>{pill.time}시</TimeTag>}
+      <MainInfo isFromHome={isFromHome}>
         <div>
           <TitleText title={pill.name} marginBottom="0" />
           <PillType>{pill.type}</PillType>
         </div>
-        {shortInfo ? (
+        {isFromHome ? (
           <p>{pill.many}알</p>
         ) : (
           <TimeInfo>
@@ -37,7 +39,7 @@ const PillCard = ({ pill, timeInfo, shortInfo }) => {
           </TimeInfo>
         )}
       </MainInfo>
-      {!shortInfo && (
+      {!isFromHome && (
         <>
           <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
@@ -68,10 +70,11 @@ const TimeTag = styled.p`
 `
 
 const MainInfo = styled.div`
-  display: ${(props) => (props.shortInfo ? 'flex' : 'block')};
+  display: ${(props) => (props.isFromHome ? 'flex' : 'block')};
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
+  pointer-events: none;
   ${MainInfo} div {
     display: flex;
     align-items: center;
@@ -112,8 +115,8 @@ const DeleteBtn = styled.button`
 
 PillCard.propTypes = {
   pill: PropTypes.object.isRequired,
-  timeInfo: PropTypes.bool,
-  shortInfo: PropTypes.bool,
+  isFromHome: PropTypes.bool,
+  id: PropTypes.number.isRequired,
 }
 
 export default PillCard

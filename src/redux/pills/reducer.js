@@ -24,10 +24,15 @@ const pillsReducer = (state = initialState, action) => {
     case CREATE_PILL:
       return { ...state, pills: [...state.pills, action.payload] }
     case UPDATE_PILL:
-      return { ...state, pills: [...state.pills, action.payload] }
+      return {
+        ...state,
+        pills: state.pills.map((item) =>
+          item.name === action.payload.name ? action.payload : item,
+        ),
+      }
     case DELETE_PILL:
       // 나중에 name은 id로 해야함
-      return { ...state, pills: state.pills.filter((el) => el.name !== action.payload) }
+      return { ...state, pills: state.pills.filter((el, index) => index !== action.payload) }
     default:
       return state
   }

@@ -4,7 +4,7 @@ import Button from '../../atoms/Button'
 import Textbox from '../../atoms/Textbox'
 import TitleText from '../../atoms/TitleText'
 import { useDispatch, useSelector } from 'react-redux'
-import { closeModal, createPill } from '../../../redux'
+import { closeModal, createPill, updatePill } from '../../../redux'
 
 const initialFormData = {
   type: '약',
@@ -40,7 +40,11 @@ const Modal = () => {
 
     console.log(formData)
 
-    dispatch(createPill(formData))
+    if (formDataState) {
+      dispatch(updatePill(formData))
+    } else {
+      dispatch(createPill(formData))
+    }
 
     dispatch(closeModal())
   }
@@ -113,7 +117,7 @@ const Modal = () => {
         <div>
           <Button label="닫기" float={false} onClick={handleClose} />
           <Button
-            label={formData.id ? '추가하기' : '수정하기'} // 나중에 db에 저장하고 나서는 id로 써야함
+            label={formDataState ? '수정하기' : '추가하기'}
             float={false}
             onClick={handleSubmit}
           />
