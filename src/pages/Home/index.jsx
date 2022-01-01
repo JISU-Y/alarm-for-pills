@@ -6,14 +6,10 @@ import Timeline from '../../components/organisms/Timeline'
 
 const Home = () => {
   const pills = useSelector((state) => state.pills.pills)
-  const drugs = pills.filter((pill) => pill.type === '약')
-  const supps = pills.filter((pill) => pill.type === '영양제')
 
   return (
     <ContainerWrap>
       <Container>
-        {/* <PillCard sectionTitle="약" pills={drugs} button={false} withTag={false} />
-        <PillCard sectionTitle="영양제" pills={supps} button={false} withTag={false} /> */}
         <Timeline />
       </Container>
     </ContainerWrap>
