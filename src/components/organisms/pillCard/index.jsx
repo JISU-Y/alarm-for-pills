@@ -5,10 +5,13 @@ import TitleText from '../../atoms/TitleText'
 
 const PillCard = ({ pill, timeInfo, shortInfo }) => {
   return (
-    <Card>
+    <Card isFromHome={timeInfo}>
       {timeInfo && <TimeTag>{pill.time}시</TimeTag>}
       <MainInfo shortInfo={shortInfo}>
-        <TitleText title={pill.name} />
+        <div>
+          <TitleText title={pill.name} />
+          <PillType>{pill.type}</PillType>
+        </div>
         {shortInfo ? (
           <p>{pill.many}알</p>
         ) : (
@@ -23,7 +26,7 @@ const PillCard = ({ pill, timeInfo, shortInfo }) => {
       </MainInfo>
       {!shortInfo && (
         <>
-          <PillType>{pill.type}</PillType>
+          <DeleteBtn>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
         </>
       )}
@@ -41,11 +44,14 @@ const Card = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  height: ${(props) => (props.isFromHome ? '80px' : 'auto')};
 `
 
 const TimeTag = styled.p`
   font-size: 14px;
   width: 20%;
+  margin: 0;
+  line-height: 80px;
 `
 
 const MainInfo = styled.div`
@@ -53,6 +59,10 @@ const MainInfo = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
+  ${MainInfo} div {
+    display: flex;
+    align-items: center;
+  }
 `
 
 const TimeInfo = styled.div`
@@ -64,10 +74,7 @@ const TimeInfo = styled.div`
 `
 
 const PillType = styled.p`
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  font-size: 14px;
+  margin-left: 10px;
 `
 
 const PillLeft = styled.p`
@@ -77,7 +84,15 @@ const PillLeft = styled.p`
   font-size: 14px;
 `
 
-const PillAmount = styled.p``
+const DeleteBtn = styled.button`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: tomato;
+`
 
 PillCard.propTypes = {
   pill: PropTypes.object.isRequired,

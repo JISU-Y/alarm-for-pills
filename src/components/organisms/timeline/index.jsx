@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Title from '../../molecules/Title'
 import PillCard from '../PillCard'
@@ -34,6 +35,8 @@ const pills = [
 ]
 
 const Timeline = () => {
+  // const pills = useSelector((state) => state.pills.pills)
+
   return (
     <TLContainer>
       <Title title="Today" infoText="" toggle={false} />

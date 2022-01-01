@@ -35,6 +35,7 @@ const WeekContainer = styled.div`
   grid-gap: 5px;
   padding: 5px;
   border-radius: 10px;
+  margin-bottom: 20px;
   ${WeekContainer} h4 {
     margin: 5px;
   }

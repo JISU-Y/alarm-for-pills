@@ -38,6 +38,7 @@ const pills = [
 
 const PillSetting = () => {
   const [shouldOpenModal, setShouldOpenModal] = useState(false)
+  // const pills = useSelector((state) => state.pills.pills)
 
   const openModal = () => {
     setShouldOpenModal(true)
