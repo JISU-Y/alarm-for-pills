@@ -36,7 +36,7 @@ const pills = [
 const Timeline = () => {
   return (
     <TLContainer>
-      <Title title="Timeline" infoText="" toggle={false} />
+      <Title title="Today" infoText="" toggle={false} />
       {pills.map((pill) => (
         <PillCard key={pill.name} pill={pill} timeInfo={true} shortInfo={true} />
       ))}

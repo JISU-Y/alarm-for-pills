@@ -1,25 +1,29 @@
 import React from 'react'
 import styled from 'styled-components'
 import Cross from '../../atoms/Cross'
+import Title from '../../molecules/Title'
 
 const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
 
 const WeeklyPill = () => {
   return (
-    <WeekContainer>
-      {dayOfWeek.map((day) => (
-        <Weekday key={day}>
-          <h4>{day}</h4>
-          <ThumbPill>종합 비타민 외 2종</ThumbPill>
-          <Cross top="10px" right="10px" />
+    <>
+      <Title title="Weekly" infoText="" toggle={false} />
+      <WeekContainer>
+        {dayOfWeek.map((day) => (
+          <Weekday key={day}>
+            <h4>{day}</h4>
+            <ThumbPill>종합 비타민 외 2종</ThumbPill>
+            <Cross top="10px" right="10px" />
+          </Weekday>
+        ))}
+        <Weekday>
+          {/* 이미지를 넣을까 */}
+          <Cross top="32.5%" right="32.5%" />
+          <ThumbPill>약 추가하기</ThumbPill>
         </Weekday>
-      ))}
-      <Weekday>
-        {/* 이미지를 넣을까 */}
-        <Cross top="32.5%" right="32.5%" />
-        <ThumbPill>약 추가하기</ThumbPill>
-      </Weekday>
-    </WeekContainer>
+      </WeekContainer>
+    </>
   )
 }
 
