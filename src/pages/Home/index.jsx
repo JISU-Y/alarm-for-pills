@@ -12,8 +12,8 @@ const Home = () => {
   return (
     <ContainerWrap>
       <Container>
-        <PillCard sectionTitle="약" pills={drugs} button={false} withTag={false} />
-        <PillCard sectionTitle="영양제" pills={supps} button={false} withTag={false} />
+        {/* <PillCard sectionTitle="약" pills={drugs} button={false} withTag={false} />
+        <PillCard sectionTitle="영양제" pills={supps} button={false} withTag={false} /> */}
         <Timeline />
       </Container>
     </ContainerWrap>
