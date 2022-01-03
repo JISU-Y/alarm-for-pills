@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -6,28 +6,7 @@ import Button from '../../components/atoms/Button'
 import TitleText from '../../components/atoms/TitleText'
 import Modal from '../../components/organisms/Modal'
 import PillCard from '../../components/organisms/PillCard'
-import { openModal } from '../../redux'
-
-// const pills = [
-//   {
-//     type: '약',
-//     name: '소염제',
-//     freq: '하루에 n번',
-//     freqDetail: '1',
-//     many: 1,
-//     time: '20:00',
-//     left: 20,
-//   },
-//   {
-//     type: '영양제',
-//     name: '오메가 3',
-//     freq: '하루에 n번',
-//     freqDetail: '1',
-//     many: 1,
-//     time: '19:00',
-//     left: 50,
-//   },
-// ]
+import { fetchPills, openModal } from '../../redux'
 
 const PillSetting = () => {
   const pillsState = useSelector((state) => state.pills)
@@ -39,6 +18,10 @@ const PillSetting = () => {
     console.log('button clicked')
     dispatch(openModal())
   }
+
+  useEffect(() => {
+    dispatch(fetchPills())
+  }, [])
 
   return (
     <>

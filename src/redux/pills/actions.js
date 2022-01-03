@@ -1,4 +1,11 @@
-import { CREATE_PILL, DELETE_PILL, UPDATE_PILL, OPEN_MODAL, CLOSE_MODAL } from './types'
+import {
+  CREATE_PILL,
+  FETCH_PILLS,
+  DELETE_PILL,
+  UPDATE_PILL,
+  OPEN_MODAL,
+  CLOSE_MODAL,
+} from './types'
 
 export const openModal = (dataObj) => {
   return {
@@ -18,6 +25,10 @@ export const createPill = (dataObj) => {
     type: CREATE_PILL,
     payload: dataObj,
   }
+}
+
+export const fetchPills = () => {
+  return { type: FETCH_PILLS }
 }
 
 export const updatePill = (dataObj) => {

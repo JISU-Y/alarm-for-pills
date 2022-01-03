@@ -1,6 +1,13 @@
+// create
 export const CREATE_PILL = 'CREATE_PILL'
 export const CREATE_PILL_SUCCESS = 'CREATE_PILL_SUCCESS'
 export const CREATE_PILL_FAILURE = 'CREATE_PILL_FAILURE'
+
+// read
+export const FETCH_PILLS = 'FETCH_PILLS'
+export const FETCH_PILLS_SUCCESS = 'FETCH_PILLS_SUCCESS'
+export const FETCH_PILLS_FAILURE = 'FETCH_PILLS_FAILURE'
+
 export const DELETE_PILL = 'DELETE_PILL'
 export const UPDATE_PILL = 'UPDATE_PILL'
 export const OPEN_MODAL = 'OPEN_MODAL'
