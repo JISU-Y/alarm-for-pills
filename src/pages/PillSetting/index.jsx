@@ -6,7 +6,7 @@ import Button from '../../components/atoms/Button'
 import TitleText from '../../components/atoms/TitleText'
 import Modal from '../../components/organisms/Modal'
 import PillCard from '../../components/organisms/PillCard'
-import { fetchPills, openModal } from '../../redux'
+import { openModal } from '../../redux'
 
 const PillSetting = () => {
   const pillsState = useSelector((state) => state.pills)
@@ -18,10 +18,6 @@ const PillSetting = () => {
     console.log('button clicked')
     dispatch(openModal())
   }
-
-  useEffect(() => {
-    dispatch(fetchPills())
-  }, [])
 
   return (
     <>
