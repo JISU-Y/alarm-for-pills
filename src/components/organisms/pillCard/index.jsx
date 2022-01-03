@@ -5,11 +5,11 @@ import TitleText from '../../atoms/TitleText'
 import { useDispatch } from 'react-redux'
 import { deletePill, openModal } from '../../../redux'
 
-const PillCard = ({ pill, isFromHome, id }) => {
+const PillCard = ({ pill, isFromHome }) => {
   const dispatch = useDispatch()
 
   const deleteCard = () => {
-    dispatch(deletePill(id))
+    dispatch(deletePill(pill.id))
   }
 
   const showPillData = (e) => {
@@ -116,7 +116,6 @@ const DeleteBtn = styled.button`
 PillCard.propTypes = {
   pill: PropTypes.object.isRequired,
   isFromHome: PropTypes.bool,
-  id: PropTypes.number.isRequired,
 }
 
 export default PillCard

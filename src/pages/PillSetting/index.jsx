@@ -27,8 +27,8 @@ const PillSetting = () => {
     <>
       <PillContainer>
         <TitleText title="약 / 영양제 리스트" />
-        {pills.map((pill, index) => (
-          <PillCard key={index} pill={pill} id={index} />
+        {pills.map((pill) => (
+          <PillCard key={pill.id} pill={pill} />
         ))}
         <Button label="+" float={true} onClick={handlePlusBtnClick} />
       </PillContainer>

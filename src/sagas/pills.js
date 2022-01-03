@@ -12,11 +12,13 @@ import {
   UPDATE_PILL_SUCCESS,
   UPDATE_PILL_FAILURE,
   DELETE_PILL,
+  DELETE_PILL_SUCCESS,
+  DELETE_PILL_FAILURE,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from '../redux/pills/types'
 import { db } from '../utils/firebase'
-import { collection, addDoc, getDocs, updateDoc, doc } from 'firebase/firestore'
+import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 
 function* createPill(action) {
   try {
@@ -53,7 +55,7 @@ function* updatePill(action) {
       return
     }
 
-    updateDoc(docRef, action.payload)
+    yield call(updateDoc, docRef, action.payload)
 
     console.log(action.payload)
 
@@ -63,10 +65,30 @@ function* updatePill(action) {
   }
 }
 
+function* deletePill(action) {
+  try {
+    const docRef = yield call(doc, db, 'pills', action.payload)
+
+    if (!docRef) {
+      console.log('해당하는 약을 찾을 수 없습니다.')
+      return
+    }
+
+    yield call(deleteDoc, docRef)
+
+    console.log(action.payload)
+
+    yield put({ type: DELETE_PILL_SUCCESS, payload: action.payload })
+  } catch (error) {
+    yield put({ type: DELETE_PILL_FAILURE, payload: error.message })
+  }
+}
+
 function* watchPill() {
   yield takeEvery(CREATE_PILL, createPill)
   yield takeEvery(FETCH_PILLS, getPills)
   yield takeEvery(UPDATE_PILL, updatePill)
+  yield takeEvery(DELETE_PILL, deletePill)
 }
 
 export default function* pillSaga() {

@@ -9,6 +9,8 @@ import {
   UPDATE_PILL_SUCCESS,
   UPDATE_PILL_FAILURE,
   DELETE_PILL,
+  DELETE_PILL_SUCCESS,
+  DELETE_PILL_FAILURE,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from './types'
@@ -57,15 +59,27 @@ const pillsReducer = (state = initialState, action) => {
       console.log('update success')
       return {
         ...state,
+        loading: false,
         pills: state.pills.map((item) => (item.id === action.payload.id ? action.payload : item)),
       }
     case UPDATE_PILL_FAILURE:
       console.log('update failed')
       return { ...state, loading: false }
 
+    // delete a pill
     case DELETE_PILL:
-      // 나중에 name은 id로 해야함
-      return { ...state, pills: state.pills.filter((el, index) => index !== action.payload) }
+      return { ...state, loading: true }
+    case DELETE_PILL_SUCCESS:
+      console.log('delete success')
+      return {
+        ...state,
+        loading: false,
+        pills: state.pills.filter((el) => el.id !== action.payload),
+      }
+    case DELETE_PILL_FAILURE:
+      console.log('delete failed')
+      return { ...state, loading: false }
+
     default:
       return state
   }
