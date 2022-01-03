@@ -1,9 +1,18 @@
-import { CREATE_PILL, DELETE_PILL, UPDATE_PILL, OPEN_MODAL, CLOSE_MODAL } from './types'
+import {
+  CREATE_PILL,
+  CREATE_PILL_SUCCESS,
+  CREATE_PILL_FAILURE,
+  DELETE_PILL,
+  UPDATE_PILL,
+  OPEN_MODAL,
+  CLOSE_MODAL,
+} from './types'
 
 // pills
 const initialState = {
   pills: [],
   isModalOpen: false,
+  loading: false,
   formData: {
     type: '약',
     name: '',
@@ -22,7 +31,12 @@ const pillsReducer = (state = initialState, action) => {
     case CLOSE_MODAL:
       return { ...state, isModalOpen: false, formData: null }
     case CREATE_PILL:
-      return { ...state, pills: [...state.pills, action.payload] }
+      return { ...state, loading: true }
+    case CREATE_PILL_SUCCESS:
+      return { ...state, loading: false, pills: [...state.pills, action.payload] }
+    case CREATE_PILL_FAILURE:
+      console.log('create failed')
+      return { ...state, loading: false }
     case UPDATE_PILL:
       return {
         ...state,
