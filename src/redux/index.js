@@ -1,8 +1,8 @@
 export {
   createPill,
   fetchPills,
-  deletePill,
   updatePill,
+  deletePill,
   openModal,
   closeModal,
 } from './pills/actions'
