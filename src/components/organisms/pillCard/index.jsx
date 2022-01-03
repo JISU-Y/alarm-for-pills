@@ -2,14 +2,32 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import TitleText from '../../atoms/TitleText'
+import { useDispatch } from 'react-redux'
+import { deletePill, openModal } from '../../../redux'
 
-const PillCard = ({ pill, timeInfo, shortInfo }) => {
+const PillCard = ({ pill, isFromHome }) => {
+  const dispatch = useDispatch()
+
+  const deleteCard = () => {
+    dispatch(deletePill(pill.id))
+  }
+
+  const showPillData = (e) => {
+    if (isFromHome) return
+    if (e.target !== e.currentTarget) return // event bubbling 방지
+    console.log(pill)
+    dispatch(openModal(pill))
+  }
+
   return (
-    <Card>
-      {timeInfo && <TimeTag>{pill.time}시</TimeTag>}
-      <MainInfo shortInfo={shortInfo}>
-        <TitleText title={pill.name} />
-        {shortInfo ? (
+    <Card isFromHome={isFromHome} onClick={showPillData}>
+      {isFromHome && <TimeTag>{pill.time}시</TimeTag>}
+      <MainInfo isFromHome={isFromHome}>
+        <div>
+          <TitleText title={pill.name} marginBottom="0" />
+          <PillType>{pill.type}</PillType>
+        </div>
+        {isFromHome ? (
           <p>{pill.many}알</p>
         ) : (
           <TimeInfo>
@@ -21,9 +39,9 @@ const PillCard = ({ pill, timeInfo, shortInfo }) => {
           </TimeInfo>
         )}
       </MainInfo>
-      {!shortInfo && (
+      {!isFromHome && (
         <>
-          <PillType>{pill.type}</PillType>
+          <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
         </>
       )}
@@ -41,18 +59,26 @@ const Card = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  height: ${(props) => (props.isFromHome ? '80px' : 'auto')};
 `
 
 const TimeTag = styled.p`
   font-size: 14px;
   width: 20%;
+  margin: 0;
+  line-height: 80px;
 `
 
 const MainInfo = styled.div`
-  display: ${(props) => (props.shortInfo ? 'flex' : 'block')};
+  display: ${(props) => (props.isFromHome ? 'flex' : 'block')};
   width: 100%;
   align-items: center;
   justify-content: space-evenly;
+  pointer-events: none;
+  ${MainInfo} div {
+    display: flex;
+    align-items: center;
+  }
 `
 
 const TimeInfo = styled.div`
@@ -64,10 +90,7 @@ const TimeInfo = styled.div`
 `
 
 const PillType = styled.p`
-  position: absolute;
-  top: 0.5rem;
-  right: 1rem;
-  font-size: 14px;
+  margin-left: 10px;
 `
 
 const PillLeft = styled.p`
@@ -77,12 +100,22 @@ const PillLeft = styled.p`
   font-size: 14px;
 `
 
-const PillAmount = styled.p``
+const DeleteBtn = styled.button`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: tomato;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+`
 
 PillCard.propTypes = {
   pill: PropTypes.object.isRequired,
-  timeInfo: PropTypes.bool,
-  shortInfo: PropTypes.bool,
+  isFromHome: PropTypes.bool,
 }
 
 export default PillCard

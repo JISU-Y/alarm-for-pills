@@ -1,1 +1,8 @@
-export { createPill } from './pills/actions'
+export {
+  createPill,
+  fetchPills,
+  updatePill,
+  deletePill,
+  openModal,
+  closeModal,
+} from './pills/actions'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navigation from './components/organisms/Navigation'
 import Home from './pages/Home'
@@ -6,8 +6,16 @@ import NoPage from './pages/NoPage'
 import MyInfo from './pages/MyInfo'
 import PillSetting from './pages/PillSetting'
 import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+import { fetchPills } from './redux'
 
 const App = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchPills())
+  }, [])
+
   return (
     <MobileBox>
       <BrowserRouter>

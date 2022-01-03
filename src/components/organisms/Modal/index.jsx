@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Button from '../../atoms/Button'
 import Textbox from '../../atoms/Textbox'
 import TitleText from '../../atoms/TitleText'
-import { useDispatch } from 'react-redux'
-import { createPill } from '../../../redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeModal, createPill, updatePill } from '../../../redux'
 
-const initialState = {
+const initialFormData = {
   type: '약',
   name: '',
   freq: '하루에 n번',
@@ -19,9 +18,10 @@ const initialState = {
 
 const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
 
-const Modal = ({ closeModal }) => {
-  const [formData, setFormData] = useState(initialState)
-
+const Modal = () => {
+  const formDataState = useSelector((state) => state.pills.formData)
+  console.log(formDataState)
+  const [formData, setFormData] = useState(formDataState ?? initialFormData)
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -40,9 +40,17 @@ const Modal = ({ closeModal }) => {
 
     console.log(formData)
 
-    dispatch(createPill(formData))
+    if (formDataState) {
+      dispatch(updatePill(formData))
+    } else {
+      dispatch(createPill(formData))
+    }
 
-    closeModal()
+    dispatch(closeModal())
+  }
+
+  const handleClose = () => {
+    dispatch(closeModal())
   }
 
   return (
@@ -52,18 +60,18 @@ const Modal = ({ closeModal }) => {
         <div>
           <SelectContainer>
             <Textbox text="약 / 영양제" size="mid" />
-            <Select onChange={handleChange} id="type">
+            <Select onChange={handleChange} id="type" value={formData.type}>
               <Option value="약">약</Option>
               <Option value="영양제">영양제</Option>
             </Select>
           </SelectContainer>
           <SelectContainer>
             <Textbox text="약 이름" size="mid" />
-            <Input id="name" onChange={handleChange} />
+            <Input id="name" onChange={handleChange} value={formData.name} />
           </SelectContainer>
           <SelectContainer>
             <Textbox text="복용 주기" size="mid" />
-            <Select onChange={handleChange} id="freq">
+            <Select onChange={handleChange} id="freq" value={formData.freq}>
               <Option value="하루에 n번">하루에 n번</Option>
               <Option value="n일에 한 번">n일에 한 번</Option>
               <Option value="요일마다">요일마다</Option>
@@ -84,26 +92,35 @@ const Modal = ({ closeModal }) => {
                 </div>
               ))
             ) : (
-              <Input type={'number'} id="freqDetail" onChange={handleChange} />
+              <Input
+                type={'number'}
+                id="freqDetail"
+                value={formData.freqDetail}
+                onChange={handleChange}
+              />
             )}
           </SelectContainer>
           <SelectContainer>
             <Textbox text="복용량" size="mid" />
-            <Input type={'number'} id="many" onChange={handleChange} />
+            <Input type={'number'} id="many" onChange={handleChange} value={formData.many} />
           </SelectContainer>
           {/* 2개 이상 선택 시 시간 선택 늘어나기 */}
           <SelectContainer>
             <Textbox text="복용 시간" size="mid" />
-            <Input type={'time'} id="time" onChange={handleChange} />
+            <Input type={'time'} id="time" onChange={handleChange} value={formData.time} />
           </SelectContainer>
           <SelectContainer>
             <Textbox text="잔여량" size="mid" />
-            <Input type={'number'} id="left" onChange={handleChange} />
+            <Input type={'number'} id="left" onChange={handleChange} value={formData.left} />
           </SelectContainer>
         </div>
         <div>
-          <Button label="닫기" float={false} onClick={closeModal} />
-          <Button label="추가하기" float={false} onClick={handleSubmit} />
+          <Button label="닫기" float={false} onClick={handleClose} />
+          <Button
+            label={formDataState ? '수정하기' : '추가하기'}
+            float={false}
+            onClick={handleSubmit}
+          />
         </div>
       </ModalWrap>
     </ModalContainer>
@@ -152,9 +169,5 @@ const Input = styled.input`
   font-size: 15px;
   font-weight: bold;
 `
-
-Modal.propTypes = {
-  closeModal: PropTypes.func,
-}
 
 export default Modal
