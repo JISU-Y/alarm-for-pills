@@ -18,7 +18,7 @@ import {
 // pills
 const initialState = {
   pills: [],
-  isModalOpen: false,
+  isModalOpen: true, // false 변경
   loading: false,
   formData: null,
 }

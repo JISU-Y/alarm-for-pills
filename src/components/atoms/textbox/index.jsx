@@ -13,6 +13,7 @@ const StyledText = styled.p`
     if (props.size === 'small') return '12px'
   }};
   color: ${(props) => props.color};
+  margin: 0;
 `
 
 Textbox.propTypes = {
