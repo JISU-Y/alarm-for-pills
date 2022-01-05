@@ -10,8 +10,8 @@ const Timeline = () => {
   return (
     <TLContainer>
       <Title title="Today" infoText="" toggle={false} />
-      {pills.map((pill, index) => (
-        <PillCard key={index} pill={pill} isFromHome={true} id={index} />
+      {pills.map((pill) => (
+        <PillCard key={pill.id} pill={pill} isFromHome={true} />
       ))}
     </TLContainer>
   )

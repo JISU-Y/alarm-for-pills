@@ -5,16 +5,16 @@ import Textbox from '../../atoms/Textbox'
 import TitleText from '../../atoms/TitleText'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeModal, createPill, updatePill } from '../../../redux'
+import uuid from 'react-uuid'
 
 const initialFormData = {
   type: '약',
   name: '',
-  freq: '하루에 n번',
+  freq: 'N일마다',
   freqDay: 1,
   freqNum: 1,
-  freqMany: 1,
-  freqWeekdays: '',
-  freqTime: [],
+  freqWeekdays: [],
+  freqDetails: [], // {id: uuid , freqTime: '10:14', freqMany: '2'}
   left: 0,
 }
 
@@ -23,23 +23,21 @@ const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
 const Modal = () => {
   const formDataState = useSelector((state) => state.pills.formData)
   const [formData, setFormData] = useState(formDataState ?? initialFormData)
-  const [timeArr, setTimeArr] = useState([])
+  const [detail, setDetail] = useState({})
+  const [daylist, setDaylist] = useState([])
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
+    console.log(e.target.id)
+    console.log(e.target.value)
+    console.log(formData.freqDetails)
+
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
-      freqTime: timeArr,
+      freqWeekdays: daylist,
     }))
   }
-
-  useEffect(() => {
-    if (formData.freqNum <= 0) return
-    const tempArr = new Array(Number(formData.freqNum)).fill(1).map((el, index) => index)
-    console.log(tempArr)
-    setTimeArr(tempArr)
-  }, [formData.freqNum])
 
   const handleSubmit = () => {
     if (Object.values(formData).includes('') || Object.values(formData).includes(0)) {
@@ -57,6 +55,38 @@ const Modal = () => {
     }
 
     dispatch(closeModal())
+  }
+
+  const handleChangeWeekdays = (e) => {
+    if (e.target.checked) {
+      setDaylist((prev) => [...prev, e.target.value])
+    } else {
+      setDaylist((prev) => prev.filter((el) => el !== e.target.value))
+    }
+  }
+
+  const handleChangeDetails = (e) => {
+    console.log(e.target.id)
+    console.log(e.target.value)
+    setDetail((prev) => ({ ...prev, id: uuid(), [e.target.id]: e.target.value }))
+  }
+
+  const handleAddDetails = (e) => {
+    e.preventDefault()
+    console.log(detail)
+    setFormData((prev) => ({
+      ...prev,
+      freqDetails: [...prev.freqDetails, detail],
+    }))
+  }
+
+  const handleDeleteFreq = (e) => {
+    console.log(e.target.id)
+    console.log(formData.freqDetails)
+    setFormData((prev) => ({
+      ...prev,
+      freqDetails: prev.freqDetails.filter((el) => el.id !== e.target.id),
+    }))
   }
 
   const handleClose = () => {
@@ -86,24 +116,24 @@ const Modal = () => {
           <Textbox text="복용 주기" size="mid" />
           <SelectContainer>
             <Select onChange={handleChange} id="freq" value={formData.freq}>
-              <Option value="x일마다 y번">x일마다 y번</Option>
-              <Option value="특정 요일마다">특정 요일마다</Option>
+              <Option value="N일마다">N일마다</Option>
+              <Option value="O요일마다">O요일마다</Option>
             </Select>
             <InnerDiv>
-              {formData.freq === '특정 요일마다' ? (
+              {formData.freq === 'O요일마다' ? (
                 <>
                   {dayOfWeek.map((day) => (
                     <WeekDayContainer key={day}>
                       <Input
                         type="checkbox"
                         id="freqWeekdays"
-                        value={`${day}요일마다`}
-                        onclick={handleChange}
+                        value={day}
+                        onChange={handleChangeWeekdays}
                       />
-                      <label htmlFor={`${day}요일마다`}>{day}</label>
+                      <label htmlFor={day}>{day}</label>
                     </WeekDayContainer>
                   ))}
-                  <p>마다</p>
+                  <p>요일마다</p>
                 </>
               ) : (
                 <>
@@ -116,40 +146,48 @@ const Modal = () => {
                   <p>일마다</p>
                 </>
               )}
-              <Input
-                type={'number'}
-                id="freqNum"
-                value={formData.freqNum}
-                onChange={handleChange}
-              />
-              <p>번</p>
-              <Input
-                type={'number'}
-                id="freqMany"
-                onChange={handleChange}
-                value={formData.freqMany}
-              />
-              <p>알씩</p>
             </InnerDiv>
           </SelectContainer>
-          {/* 2개 이상 선택 시 시간 선택 늘어나기 */}
-          <Textbox text="복용 시간" size="mid" />
+          <Textbox text="복용 시간 및 복용량" size="mid" />
           <SelectContainer id="freqTime">
-            {timeArr.length > 0 &&
-              timeArr.map((el) => (
+            {formData.freqDetails.map((el) => (
+              <FreqDetailDiv key={el.id}>
                 <Input
-                  key={el}
                   type={'time'}
                   id="freqTime"
-                  onChange={handleChange}
-                  value={formData.freqTime}
+                  onChange={handleChangeDetails} // 추가된 시간을 수정하는 것은 추후에..
+                  value={el.freqTime}
                 />
-              ))}
+                <span>시에</span>
+                <Input
+                  type={'number'}
+                  id="freqMany"
+                  onChange={handleChangeDetails}
+                  value={el.freqMany}
+                />
+                <span>알씩</span>
+                <button id={el.id} onClick={handleDeleteFreq}>
+                  X
+                </button>
+              </FreqDetailDiv>
+            ))}
+            <form onSubmit={handleAddDetails}>
+              <Input type={'time'} id="freqTime" onChange={handleChangeDetails} />
+              <span>시에</span>
+              <Input type={'number'} id="freqMany" onChange={handleChangeDetails} />
+              <span>알씩</span>
+              <button type="submit">+</button>
+            </form>
           </SelectContainer>
           <Textbox text="잔여량" size="mid" />
           <SelectContainer>
             <Input type={'number'} id="left" onChange={handleChange} value={formData.left} />
           </SelectContainer>
+          {/* 밑으로 옮기기 */}
+          {/* <Input type={'number'} id="freqNum" value={formData.freqNum} onChange={handleChange} />
+          <p>번</p>
+          <Input type={'number'} id="freqMany" onChange={handleChange} value={formData.freqMany} />
+          <p>알씩</p> */}
         </div>
         <div>
           <Button label="닫기" float={false} onClick={handleClose} />
@@ -186,10 +224,8 @@ const ModalWrap = styled.div`
 
 const SelectContainer = styled.div`
   width: 100%;
-  height: ${(props) => (props.id === 'freqTime' ? 'auto' : '40px')};
   display: flex;
-  flex-wrap: ${(props) => (props.id === 'freqTime' ? 'wrap' : 'nowrap')};
-  gap: ${(props) => (props.id === 'freqTime' ? '5px' : 'unset')};
+  flex-direction: ${(props) => (props.id === 'freqTime' ? 'column' : 'row')};
   margin: 10px 0;
 `
 
@@ -211,7 +247,6 @@ const Input = styled.input`
       : props.id === 'freqTime'
       ? '130px'
       : '100%'};
-  height: ${(props) => (props.id === 'freqWeekdays' ? 'auto' : '100%')};
   font-size: 15px;
   font-weight: bold;
   box-sizing: border-box;
@@ -239,7 +274,6 @@ const InnerDiv = styled.div`
   ${InnerDiv} p {
     margin: 0;
     margin-right: 5px;
-    font-size: 14px;
   }
 `
 
@@ -248,8 +282,11 @@ const WeekDayContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
-  margin-right: 4px;
+  margin-right: 10px;
+`
+
+const FreqDetailDiv = styled.div`
+  display: flex;
 `
 
 export default Modal
