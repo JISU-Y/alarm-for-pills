@@ -7,8 +7,6 @@ import { deletePill, openModal } from '../../../redux'
 
 const PillCard = ({ pill, isFromHome }) => {
   const dispatch = useDispatch()
-  const pillDetails = pill.freqDetails
-  const totalMany = pillDetails.reduce((acc, cur) => (acc += parseInt(cur.freqMany)), 0)
 
   const deleteCard = () => {
     dispatch(deletePill(pill.id))
@@ -25,13 +23,13 @@ const PillCard = ({ pill, isFromHome }) => {
     <Card isFromHome={isFromHome} onClick={showPillData}>
       {isFromHome ? (
         <>
-          <TimeTag>{pill.freqDetails[0].freqTime}시</TimeTag>
+          <TimeTag>{pill.freqTime}시</TimeTag>
           <MainInfo isFromHome={isFromHome}>
             <div>
               <TitleText title={pill.name} marginBottom="0" />
               <PillType>{pill.type}</PillType>
             </div>
-            <p>{totalMany}알</p>
+            <p>{pill.freqMany}알</p>
           </MainInfo>
         </>
       ) : (
@@ -43,12 +41,13 @@ const PillCard = ({ pill, isFromHome }) => {
             </div>
             <TimeInfo>
               <p>
+                {/* weekdays.length 7이고 freqDay 1일 때 "매일"로 표시 */}
                 {pill.freq === 'N일마다'
                   ? `${pill.freqDay}일마다 `
                   : `${[...pill.freqWeekdays]}요일마다 `}
-                {pillDetails.length}번
               </p>
-              <p>총 {totalMany}알</p>
+              <p>{pill.freqTime}시</p>
+              <p>{pill.freqMany}알</p>
             </TimeInfo>
           </MainInfo>
           <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
