@@ -19,9 +19,9 @@ import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from 'firebase
 
 function* createPill(action) {
   try {
-    const data = yield call(addDoc, collection(db, 'pills'), action.payload)
-    console.log(data)
-    yield put({ type: CREATE_PILL_SUCCESS, payload: data })
+    const docRef = yield call(addDoc, collection(db, 'pills'), action.payload)
+
+    yield put({ type: CREATE_PILL_SUCCESS, payload: { id: docRef.id, ...action.payload } })
   } catch (error) {
     yield put({ type: CREATE_PILL_FAILURE, payload: error.message })
   }

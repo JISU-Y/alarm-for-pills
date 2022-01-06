@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -12,6 +12,7 @@ const PillSetting = () => {
   const pillsState = useSelector((state) => state.pills)
   const dispatch = useDispatch()
   const pills = pillsState.pills
+  console.log(pills)
   const shouldOpenModal = pillsState.isModalOpen
 
   const handlePlusBtnClick = () => {

@@ -21,26 +21,35 @@ const PillCard = ({ pill, isFromHome }) => {
 
   return (
     <Card isFromHome={isFromHome} onClick={showPillData}>
-      {isFromHome && <TimeTag>{pill.time}시</TimeTag>}
-      <MainInfo isFromHome={isFromHome}>
-        <div>
-          <TitleText title={pill.name} marginBottom="0" />
-          <PillType>{pill.type}</PillType>
-        </div>
-        {isFromHome ? (
-          <p>{pill.many}알</p>
-        ) : (
-          <TimeInfo>
-            <p>
-              {pill.freq} {pill.freqDetail}번
-            </p>
-            <p>{pill.time}시</p>
-            <p>{pill.many}알</p>
-          </TimeInfo>
-        )}
-      </MainInfo>
-      {!isFromHome && (
+      {isFromHome ? (
         <>
+          <TimeTag>{pill.freqTime}시</TimeTag>
+          <MainInfo isFromHome={isFromHome}>
+            <div>
+              <TitleText title={pill.name} marginBottom="0" />
+              <PillType>{pill.type}</PillType>
+            </div>
+            <p>{pill.freqMany}알</p>
+          </MainInfo>
+        </>
+      ) : (
+        <>
+          <MainInfo isFromHome={isFromHome}>
+            <div>
+              <TitleText title={pill.name} marginBottom="0" />
+              <PillType>{pill.type}</PillType>
+            </div>
+            <TimeInfo>
+              <p>
+                {/* weekdays.length 7이고 freqDay 1일 때 "매일"로 표시 */}
+                {pill.freq === 'N일마다'
+                  ? `${pill.freqDay}일마다 `
+                  : `${[...pill.freqWeekdays]}요일마다 `}
+              </p>
+              <p>{pill.freqTime}시</p>
+              <p>{pill.freqMany}알</p>
+            </TimeInfo>
+          </MainInfo>
           <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
           <PillLeft>잔여량: {pill.left}알</PillLeft>
         </>

@@ -9,25 +9,47 @@ import { closeModal, createPill, updatePill } from '../../../redux'
 const initialFormData = {
   type: '약',
   name: '',
-  freq: '하루에 n번',
-  freqDetail: '',
-  many: 0,
-  time: '',
+  freq: 'N일마다',
+  freqDay: 1,
+  freqWeekdays: [],
+  freqTime: '',
+  freqMany: 1,
   left: 0,
 }
 
-const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
+const dayOfWeek = {
+  월: 1,
+  화: 2,
+  수: 3,
+  목: 4,
+  금: 5,
+  토: 6,
+  일: 7,
+}
 
 const Modal = () => {
   const formDataState = useSelector((state) => state.pills.formData)
-  console.log(formDataState)
-  const [formData, setFormData] = useState(formDataState ?? initialFormData)
+  const [formData, setFormData] = useState(
+    formDataState ? { ...formDataState, freqWeekdays: [] } : initialFormData,
+  )
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
+    console.log(e.target.id)
+    console.log(e.target.value)
+    console.log(e.target.checked)
+
     setFormData((prev) => ({
       ...prev,
       [e.target.id]: e.target.value,
+      freqWeekdays:
+        e.target.id === 'freqWeekdays'
+          ? prev.freqWeekdays.includes(e.target.value)
+            ? prev.freqWeekdays
+                .filter((el) => el !== e.target.value)
+                .sort((a, b) => dayOfWeek[a] - dayOfWeek[b])
+            : [...prev.freqWeekdays, e.target.value].sort((a, b) => dayOfWeek[a] - dayOfWeek[b])
+          : prev.freqWeekdays,
     }))
   }
 
@@ -58,70 +80,81 @@ const Modal = () => {
       <ModalWrap>
         <TitleText title="약 / 영양제 추가" />
         <div>
+          <Textbox text="약 / 영양제" size="mid" />
           <SelectContainer>
-            <Textbox text="약 / 영양제" size="mid" />
             <Select onChange={handleChange} id="type" value={formData.type}>
               <Option value="약">약</Option>
               <Option value="영양제">영양제</Option>
             </Select>
-          </SelectContainer>
-          <SelectContainer>
-            <Textbox text="약 이름" size="mid" />
-            <Input id="name" onChange={handleChange} value={formData.name} />
-          </SelectContainer>
-          <SelectContainer>
-            <Textbox text="복용 주기" size="mid" />
-            <Select onChange={handleChange} id="freq" value={formData.freq}>
-              <Option value="하루에 n번">하루에 n번</Option>
-              <Option value="n일에 한 번">n일에 한 번</Option>
-              <Option value="요일마다">요일마다</Option>
-            </Select>
-          </SelectContainer>
-          <SelectContainer>
-            <Textbox text="복용 주기 상세" size="mid" />
-            {formData.freq === '요일마다' ? (
-              dayOfWeek.map((day) => (
-                <div key={day}>
-                  <Input
-                    type="checkbox"
-                    id="freqDetail"
-                    value={`${day}요일마다`}
-                    onclick={handleChange}
-                  />
-                  <label htmlFor={`${day}요일마다`}>{day}요일마다</label>
-                </div>
-              ))
-            ) : (
+            <InnerDiv>
               <Input
-                type={'number'}
-                id="freqDetail"
-                value={formData.freqDetail}
+                id="name"
                 onChange={handleChange}
+                value={formData.name}
+                placeholder="약/영양제 이름"
               />
-            )}
+            </InnerDiv>
           </SelectContainer>
+          <Textbox text="복용 주기" size="mid" />
           <SelectContainer>
-            <Textbox text="복용량" size="mid" />
-            <Input type={'number'} id="many" onChange={handleChange} value={formData.many} />
+            <Select onChange={handleChange} id="freq" value={formData.freq}>
+              <Option value="N일마다">N일마다</Option>
+              <Option value="O요일마다">O요일마다</Option>
+            </Select>
+            <InnerDiv>
+              {formData.freq === 'O요일마다' ? (
+                <>
+                  {Object.keys(dayOfWeek).map((day) => (
+                    <WeekDayContainer key={day}>
+                      <Input
+                        type="checkbox"
+                        id="freqWeekdays"
+                        value={day}
+                        onChange={handleChange}
+                      />
+                      <label htmlFor={day}>{day}</label>
+                    </WeekDayContainer>
+                  ))}
+                  <p>요일마다</p>
+                </>
+              ) : (
+                <>
+                  <Input
+                    type={'number'}
+                    id="freqDay"
+                    value={formData.freqDay}
+                    onChange={handleChange}
+                  />
+                  <p>일마다</p>
+                </>
+              )}
+            </InnerDiv>
           </SelectContainer>
-          {/* 2개 이상 선택 시 시간 선택 늘어나기 */}
-          <SelectContainer>
-            <Textbox text="복용 시간" size="mid" />
-            <Input type={'time'} id="time" onChange={handleChange} value={formData.time} />
+          <Textbox text="복용 시간 및 복용량" size="mid" />
+          <SelectContainer id="freqTime">
+            <Input type={'time'} id="freqTime" onChange={handleChange} value={formData.freqTime} />
+            <span>시에</span>
+            <Input
+              type={'number'}
+              id="freqMany"
+              onChange={handleChange}
+              value={formData.freqMany}
+            />
+            <span>알씩</span>
           </SelectContainer>
+          <Textbox text="잔여량" size="mid" />
           <SelectContainer>
-            <Textbox text="잔여량" size="mid" />
             <Input type={'number'} id="left" onChange={handleChange} value={formData.left} />
           </SelectContainer>
         </div>
-        <div>
+        <ButtonContainer>
           <Button label="닫기" float={false} onClick={handleClose} />
           <Button
             label={formDataState ? '수정하기' : '추가하기'}
             float={false}
             onClick={handleSubmit}
           />
-        </div>
+        </ButtonContainer>
       </ModalWrap>
     </ModalContainer>
   )
@@ -149,6 +182,12 @@ const ModalWrap = styled.div`
 
 const SelectContainer = styled.div`
   width: 100%;
+  display: flex;
+  margin: 10px 0;
+  align-items: center;
+  ${SelectContainer} span {
+    margin-right: 10px;
+  }
 `
 
 const Select = styled.select`
@@ -162,12 +201,59 @@ const Option = styled.option`
   font-size: 15px;
   font-weight: bold;
 `
-
 const Input = styled.input`
-  width: 100%;
-  height: 30px;
+  width: ${(props) =>
+    props.id === 'freqDay' || props.id === 'freqNum' || props.id === 'freqMany'
+      ? '30px'
+      : props.id === 'freqTime'
+      ? '130px'
+      : '100%'};
   font-size: 15px;
   font-weight: bold;
+  box-sizing: border-box;
+  padding: 5px 0;
+
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  [type='number'] {
+    -moz-appearance: textfield;
+  }
+`
+
+const InnerDiv = styled.div`
+  width: 235%;
+  display: flex;
+  margin-left: 10px;
+  justify-content: flex-end;
+  align-items: center;
+  ${InnerDiv} p {
+    margin: 0;
+    margin-right: 5px;
+  }
+`
+
+const WeekDayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+`
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${ButtonContainer} Button {
+    margin: 3px;
+  }
 `
 
 export default Modal
