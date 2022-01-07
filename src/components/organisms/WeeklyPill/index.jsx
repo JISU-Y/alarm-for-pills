@@ -1,19 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Cross from '../../atoms/Cross'
 import Title from '../../molecules/Title'
+import { fetchPillsToday } from '../../../redux'
 
-const dayOfWeek = ['월', '화', '수', '목', '금', '토', '일']
+const dayOfWeek = {
+  월: 1,
+  화: 2,
+  수: 3,
+  목: 4,
+  금: 5,
+  토: 6,
+  일: 7,
+}
 
 const WeeklyPill = () => {
+  const pills = useSelector((state) => state.pills.todayPills)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchPillsToday())
+  }, [])
+
   return (
     <>
       <Title title="Weekly" infoText="" toggle={false} />
       <WeekContainer>
-        {dayOfWeek.map((day) => (
+        {Object.keys(dayOfWeek).map((day, index) => (
           <Weekday key={day}>
             <h4>{day}</h4>
-            <ThumbPill>종합 비타민 외 2종</ThumbPill>
+            <ThumbPill>
+              {pills.length > 0
+                ? `${pills[index][0]?.name ?? '없음'} ${
+                    pills[index].length > 1 ? `외 ${pills[index].length - 1} 종` : ''
+                  } `
+                : '없음'}
+            </ThumbPill>
             <Cross top="10px" right="10px" />
           </Weekday>
         ))}

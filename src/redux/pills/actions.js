@@ -3,6 +3,7 @@ import {
   FETCH_PILLS,
   DELETE_PILL,
   UPDATE_PILL,
+  TODAY_PILL,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from './types'
@@ -43,4 +44,8 @@ export const deletePill = (id) => {
     type: DELETE_PILL,
     payload: id,
   }
+}
+
+export const fetchPillsToday = () => {
+  return { type: TODAY_PILL }
 }
