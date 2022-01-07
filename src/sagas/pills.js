@@ -27,14 +27,19 @@ import {
   deleteDoc,
   query,
   where,
+  Timestamp,
 } from 'firebase/firestore'
 
 function* createPill(action) {
   try {
-    const docRef = yield call(addDoc, collection(db, 'pills'), action.payload)
+    const docRef = yield call(addDoc, collection(db, 'pills'), {
+      ...action.payload,
+      created: Timestamp.fromDate(new Date()), // Timestamp.fromDate(new Date()) FieldValue.serverTimestamp()
+    })
 
     yield put({ type: CREATE_PILL_SUCCESS, payload: { id: docRef.id, ...action.payload } })
   } catch (error) {
+    console.log(error)
     yield put({ type: CREATE_PILL_FAILURE, payload: error.message })
   }
 }

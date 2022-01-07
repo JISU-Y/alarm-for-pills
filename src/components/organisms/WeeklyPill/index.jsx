@@ -16,11 +16,18 @@ const dayOfWeek = {
 }
 
 const WeeklyPill = () => {
-  const pills = useSelector((state) => state.pills.todayPills)
+  const pills = useSelector((state) => state.pills.pills)
+  const todayPills = useSelector((state) => state.pills.todayPills) // today가 아니라 week(그것도 day/요일)임
+  const dayPills = [...todayPills]
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchPillsToday())
   }, [])
+
+  useEffect(() => {
+    console.log(pills.filter((pill) => pill.freqDay !== 0))
+    const tempPills = pills.filter((pill) => pill.freqDay !== 0)
+  }, [dayPills])
 
   return (
     <>
@@ -30,9 +37,9 @@ const WeeklyPill = () => {
           <Weekday key={day}>
             <h4>{day}</h4>
             <ThumbPill>
-              {pills.length > 0
-                ? `${pills[index][0]?.name ?? '없음'} ${
-                    pills[index].length > 1 ? `외 ${pills[index].length - 1} 종` : ''
+              {dayPills.length > 0
+                ? `${dayPills[index][0]?.name ?? '없음'} ${
+                    dayPills[index].length > 1 ? `외 ${dayPills[index].length - 1} 종` : ''
                   } `
                 : '없음'}
             </ThumbPill>

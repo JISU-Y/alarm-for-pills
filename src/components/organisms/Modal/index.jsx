@@ -10,7 +10,7 @@ const initialFormData = {
   type: '약',
   name: '',
   freq: 'N일마다',
-  freqDay: 1,
+  freqDay: 0,
   freqWeekdays: [],
   freqTime: '',
   freqMany: 1,
@@ -54,7 +54,7 @@ const Modal = () => {
   }
 
   const handleSubmit = () => {
-    if (Object.values(formData).includes('') || Object.values(formData).includes(0)) {
+    if (Object.values(formData).includes('')) {
       // no input early return
       console.log('no input modal')
       return

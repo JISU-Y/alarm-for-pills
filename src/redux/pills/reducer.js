@@ -21,7 +21,7 @@ import {
 // pills
 const initialState = {
   pills: [],
-  isModalOpen: true, // false 변경
+  isModalOpen: false,
   loading: false,
   formData: null,
   todayPills: [],

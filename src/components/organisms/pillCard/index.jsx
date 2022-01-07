@@ -8,6 +8,8 @@ import { deletePill, openModal } from '../../../redux'
 const PillCard = ({ pill, isFromHome }) => {
   const dispatch = useDispatch()
 
+  console.log(pill.created?.toDate().toLocaleDateString('ko-KO'))
+
   const deleteCard = () => {
     dispatch(deletePill(pill.id))
   }
