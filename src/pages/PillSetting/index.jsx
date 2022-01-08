@@ -12,7 +12,6 @@ const PillSetting = () => {
   const pillsState = useSelector((state) => state.pills)
   const dispatch = useDispatch()
   const pills = pillsState.pills
-  console.log(pills)
   const shouldOpenModal = pillsState.isModalOpen
 
   const handlePlusBtnClick = () => {

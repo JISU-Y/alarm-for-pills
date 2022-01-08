@@ -13,16 +13,42 @@ import {
   DELETE_PILL,
   DELETE_PILL_SUCCESS,
   DELETE_PILL_FAILURE,
+  TODAY_PILL,
+  TODAY_PILL_SUCCESS,
+  TODAY_PILL_FAILURE,
+  WEEK_PILL,
+  WEEK_PILL_SUCCESS,
+  WEEK_PILL_FAILURE,
 } from '../redux/pills/types'
 import { db } from '../utils/firebase'
-import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+  deleteDoc,
+  query,
+  where,
+  Timestamp,
+  getDoc,
+} from 'firebase/firestore'
 
 function* createPill(action) {
   try {
-    const docRef = yield call(addDoc, collection(db, 'pills'), action.payload)
+    const docRef = yield call(addDoc, collection(db, 'pills'), {
+      ...action.payload,
+      created: Timestamp.fromDate(new Date()), // Timestamp.fromDate(new Date()) FieldValue.serverTimestamp()
+    })
 
-    yield put({ type: CREATE_PILL_SUCCESS, payload: { id: docRef.id, ...action.payload } })
+    const docData = yield call(getDoc, docRef)
+
+    yield put({
+      type: CREATE_PILL_SUCCESS,
+      payload: { id: docRef.id, created: docData.data().created, ...action.payload },
+    })
   } catch (error) {
+    console.log(error)
     yield put({ type: CREATE_PILL_FAILURE, payload: error.message })
   }
 }
@@ -81,11 +107,57 @@ function* deletePill(action) {
   }
 }
 
+function* getPillsWeek() {
+  try {
+    const collRef = collection(db, 'pills')
+
+    // 요일 하나만 가져오기
+    // const q = yield call(
+    //   query,
+    //   collRef,
+    //   where('freqWeekdays', 'array-contains-any', action.payload),
+    // )
+
+    // const querySnapshots = yield call(getDocs, q)
+
+    // const docData = []
+
+    // const docData = querySnapshots.map((doc) => doc.data())
+
+    const dayOfWeek = {
+      월: 1,
+      화: 2,
+      수: 3,
+      목: 4,
+      금: 5,
+      토: 6,
+      일: 7,
+    }
+
+    const queries = yield all(
+      Object.keys(dayOfWeek).map((day) =>
+        call(query, collRef, where('freqWeekdays', 'array-contains-any', [day])),
+      ),
+    )
+    const querySnapshots = yield all(queries.map((q) => call(getDocs, q)))
+
+    const docData = querySnapshots.map((querySnapshot) =>
+      querySnapshot.docs.map((doc) => doc.data()),
+    )
+
+    yield put({ type: WEEK_PILL_SUCCESS, payload: docData })
+  } catch (error) {
+    console.log(error)
+    yield put({ type: WEEK_PILL_FAILURE, payload: error.message })
+  }
+}
+
 function* watchPill() {
   yield takeEvery(CREATE_PILL, createPill)
   yield takeEvery(FETCH_PILLS, getPills)
   yield takeEvery(UPDATE_PILL, updatePill)
   yield takeEvery(DELETE_PILL, deletePill)
+  yield takeEvery(WEEK_PILL, getPillsWeek)
 }
 
 export default function* pillSaga() {

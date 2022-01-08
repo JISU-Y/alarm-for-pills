@@ -11,6 +11,12 @@ import {
   DELETE_PILL,
   DELETE_PILL_SUCCESS,
   DELETE_PILL_FAILURE,
+  TODAY_PILL,
+  TODAY_PILL_SUCCESS,
+  TODAY_PILL_FAILURE,
+  WEEK_PILL,
+  WEEK_PILL_SUCCESS,
+  WEEK_PILL_FAILURE,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from './types'
@@ -18,9 +24,10 @@ import {
 // pills
 const initialState = {
   pills: [],
-  isModalOpen: true, // false 변경
+  isModalOpen: false,
   loading: false,
   formData: null,
+  weeklyPills: [],
 }
 
 const pillsReducer = (state = initialState, action) => {
@@ -36,11 +43,9 @@ const pillsReducer = (state = initialState, action) => {
       return { ...state, loading: true }
     case CREATE_PILL_SUCCESS:
       console.log('create success')
-      console.log(action.payload)
       return { ...state, loading: false, pills: [...state.pills, action.payload] }
     case CREATE_PILL_FAILURE:
       console.log('create failed')
-      console.log(action.payload)
       return { ...state, loading: false }
 
     // fetch pills
@@ -80,6 +85,17 @@ const pillsReducer = (state = initialState, action) => {
       }
     case DELETE_PILL_FAILURE:
       console.log('delete failed')
+      return { ...state, loading: false }
+
+    // fetch pills today
+    case WEEK_PILL:
+      return { ...state, loading: true }
+    case WEEK_PILL_SUCCESS:
+      console.log('search success')
+      console.log(action.payload)
+      return { ...state, loading: false, weeklyPills: [...action.payload] }
+    case WEEK_PILL_FAILURE:
+      console.log('search failed')
       return { ...state, loading: false }
 
     default:
