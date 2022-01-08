@@ -51,8 +51,13 @@ const Home = () => {
     const today = new Date()
     const dayOffset = today.getDay() === 0 ? 6 : today.getDay() - 1 // 일요일 7로 바꿈
 
-    console.log(weekdayPills[dayOffset])
-    setDayPills(weekdayPills[dayOffset])
+    // 시간 순 sorting
+    setDayPills(
+      weekdayPills[dayOffset + 1]?.sort(
+        (a, b) =>
+          parseInt(a.freqTime.split(':').join('')) - parseInt(b.freqTime.split(':').join('')),
+      ),
+    )
   }, [weekdayPills])
 
   return (
