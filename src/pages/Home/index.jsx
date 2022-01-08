@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import Timeline from '../../components/organisms/Timeline'
 import WeekContainer from '../../components/organisms/WeeklyPill'
-import { fetchPillsToday } from '../../redux'
+import { fetchPillsWeek } from '../../redux'
 
 const Home = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchPillsToday())
+    dispatch(fetchPillsWeek())
   }, [])
 
   return (

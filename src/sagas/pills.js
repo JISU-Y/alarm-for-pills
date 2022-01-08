@@ -16,6 +16,9 @@ import {
   TODAY_PILL,
   TODAY_PILL_SUCCESS,
   TODAY_PILL_FAILURE,
+  WEEK_PILL,
+  WEEK_PILL_SUCCESS,
+  WEEK_PILL_FAILURE,
 } from '../redux/pills/types'
 import { db } from '../utils/firebase'
 import {
@@ -104,7 +107,7 @@ function* deletePill(action) {
   }
 }
 
-function* getPillsToday() {
+function* getPillsWeek() {
   try {
     const collRef = collection(db, 'pills')
 
@@ -142,10 +145,10 @@ function* getPillsToday() {
       querySnapshot.docs.map((doc) => doc.data()),
     )
 
-    yield put({ type: TODAY_PILL_SUCCESS, payload: docData })
+    yield put({ type: WEEK_PILL_SUCCESS, payload: docData })
   } catch (error) {
     console.log(error)
-    yield put({ type: TODAY_PILL_FAILURE, payload: error.message })
+    yield put({ type: WEEK_PILL_FAILURE, payload: error.message })
   }
 }
 
@@ -154,7 +157,7 @@ function* watchPill() {
   yield takeEvery(FETCH_PILLS, getPills)
   yield takeEvery(UPDATE_PILL, updatePill)
   yield takeEvery(DELETE_PILL, deletePill)
-  yield takeEvery(TODAY_PILL, getPillsToday)
+  yield takeEvery(WEEK_PILL, getPillsWeek)
 }
 
 export default function* pillSaga() {

@@ -4,6 +4,7 @@ import {
   DELETE_PILL,
   UPDATE_PILL,
   TODAY_PILL,
+  WEEK_PILL,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from './types'
@@ -46,6 +47,6 @@ export const deletePill = (id) => {
   }
 }
 
-export const fetchPillsToday = () => {
-  return { type: TODAY_PILL }
+export const fetchPillsWeek = () => {
+  return { type: WEEK_PILL }
 }

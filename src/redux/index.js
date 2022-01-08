@@ -3,7 +3,7 @@ export {
   fetchPills,
   updatePill,
   deletePill,
-  fetchPillsToday,
+  fetchPillsWeek,
   openModal,
   closeModal,
 } from './pills/actions'

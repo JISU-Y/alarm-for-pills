@@ -14,6 +14,9 @@ import {
   TODAY_PILL,
   TODAY_PILL_SUCCESS,
   TODAY_PILL_FAILURE,
+  WEEK_PILL,
+  WEEK_PILL_SUCCESS,
+  WEEK_PILL_FAILURE,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from './types'
@@ -24,7 +27,7 @@ const initialState = {
   isModalOpen: false,
   loading: false,
   formData: null,
-  todayPills: [],
+  weeklyPills: [],
 }
 
 const pillsReducer = (state = initialState, action) => {
@@ -85,13 +88,13 @@ const pillsReducer = (state = initialState, action) => {
       return { ...state, loading: false }
 
     // fetch pills today
-    case TODAY_PILL:
+    case WEEK_PILL:
       return { ...state, loading: true }
-    case TODAY_PILL_SUCCESS:
+    case WEEK_PILL_SUCCESS:
       console.log('search success')
       console.log(action.payload)
-      return { ...state, loading: false, todayPills: [...action.payload] }
-    case TODAY_PILL_FAILURE:
+      return { ...state, loading: false, weeklyPills: [...action.payload] }
+    case WEEK_PILL_FAILURE:
       console.log('search failed')
       return { ...state, loading: false }
 

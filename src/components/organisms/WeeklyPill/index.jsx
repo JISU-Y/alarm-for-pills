@@ -17,11 +17,11 @@ const dayOfWeek = {
 const WeeklyPill = () => {
   const pills = useSelector((state) => state.pills.pills)
   const loading = useSelector((state) => state.pills.loading)
-  const todayPills = useSelector((state) => state.pills.todayPills) // today가 아니라 week(그것도 day/요일)임
-  const [dayPills, setDayPills] = useState([...todayPills])
+  const weeklyPills = useSelector((state) => state.pills.weeklyPills) // today가 아니라 week(그것도 day/요일)임
+  const [dayPills, setDayPills] = useState([...weeklyPills])
 
   console.log(dayPills)
-  console.log(todayPills)
+  console.log(weeklyPills)
   useEffect(() => {
     const filteredPills = pills.filter((pill) => pill.freqDay !== 0)
     filteredPills.forEach((pill) => {
