@@ -1,12 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Title from '../../molecules/Title'
 import PillCard from '../PillCard'
 
-const Timeline = () => {
-  const pills = useSelector((state) => state.pills.pills)
-
+const Timeline = ({ pills }) => {
   return (
     <TLContainer>
       <Title title="Today" infoText="" toggle={false} />
@@ -20,5 +18,9 @@ const Timeline = () => {
 const TLContainer = styled.div`
   grid-column: 1 / -1;
 `
+
+Timeline.propTypes = {
+  pills: PropTypes.array.isRequired,
+}
 
 export default Timeline
