@@ -28,6 +28,7 @@ import {
   query,
   where,
   Timestamp,
+  getDoc,
 } from 'firebase/firestore'
 
 function* createPill(action) {
@@ -37,7 +38,12 @@ function* createPill(action) {
       created: Timestamp.fromDate(new Date()), // Timestamp.fromDate(new Date()) FieldValue.serverTimestamp()
     })
 
-    yield put({ type: CREATE_PILL_SUCCESS, payload: { id: docRef.id, ...action.payload } })
+    const docData = yield call(getDoc, docRef)
+
+    yield put({
+      type: CREATE_PILL_SUCCESS,
+      payload: { id: docRef.id, created: docData.data().created, ...action.payload },
+    })
   } catch (error) {
     console.log(error)
     yield put({ type: CREATE_PILL_FAILURE, payload: error.message })
