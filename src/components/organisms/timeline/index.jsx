@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Title from '../../molecules/Title'
-import PillCard from '../PillCard'
+import PillCardSmall from '../PillCardSmall'
 
 const Timeline = ({ pills }) => {
   return (
     <TLContainer>
       <Title title="Today" infoText="" toggle={false} />
       {pills.map((pill) => (
-        <PillCard key={pill.id} pill={pill} isFromHome={true} />
+        <PillCardSmall key={pill.id} pill={pill} isFromHome={true} />
       ))}
     </TLContainer>
   )

@@ -5,7 +5,7 @@ import TitleText from '../../atoms/TitleText'
 import { useDispatch } from 'react-redux'
 import { deletePill, openModal } from '../../../redux'
 
-const PillCard = ({ pill, isFromHome }) => {
+const PillCard = ({ pill }) => {
   const dispatch = useDispatch()
 
   const deleteCard = () => {
@@ -13,47 +13,31 @@ const PillCard = ({ pill, isFromHome }) => {
   }
 
   const showPillData = (e) => {
-    if (isFromHome) return
     if (e.target !== e.currentTarget) return // event bubbling 방지
     console.log(pill)
     dispatch(openModal(pill))
   }
 
   return (
-    <Card isFromHome={isFromHome} onClick={showPillData}>
-      {isFromHome ? (
-        <>
-          <TimeTag>{pill.freqTime}시</TimeTag>
-          <MainInfo isFromHome={isFromHome}>
-            <div>
-              <TitleText title={pill.name} marginBottom="0" />
-              <PillType>{pill.type}</PillType>
-            </div>
-            <p>{pill.freqMany}알</p>
-          </MainInfo>
-        </>
-      ) : (
-        <>
-          <MainInfo isFromHome={isFromHome}>
-            <div>
-              <TitleText title={pill.name} marginBottom="0" />
-              <PillType>{pill.type}</PillType>
-            </div>
-            <TimeInfo>
-              <p>
-                {/* weekdays.length 7이고 freqDay 1일 때 "매일"로 표시 */}
-                {pill.freq === 'N일마다'
-                  ? `${pill.freqDay}일마다 `
-                  : `${[...pill.freqWeekdays]}요일마다 `}
-              </p>
-              <p>{pill.freqTime}시</p>
-              <p>{pill.freqMany}알</p>
-            </TimeInfo>
-          </MainInfo>
-          <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
-          <PillLeft>잔여량: {pill.left}알</PillLeft>
-        </>
-      )}
+    <Card onClick={showPillData}>
+      <MainInfo>
+        <div>
+          <TitleText title={pill.name} marginBottom="0" />
+          <PillType>{pill.type}</PillType>
+        </div>
+        <TimeInfo>
+          <p>
+            {/* weekdays.length 7이고 freqDay 1일 때 "매일"로 표시 */}
+            {pill.freq === 'N일마다'
+              ? `${pill.freqDay}일마다 `
+              : `${[...pill.freqWeekdays]}요일마다 `}
+          </p>
+          <p>{pill.freqTime}시</p>
+          <p>{pill.freqMany}알</p>
+        </TimeInfo>
+      </MainInfo>
+      <DeleteBtn onClick={deleteCard}>X</DeleteBtn>
+      <PillLeft>잔여량: {pill.left}알</PillLeft>
     </Card>
   )
 }
@@ -68,21 +52,12 @@ const Card = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
-  height: ${(props) => (props.isFromHome ? '80px' : 'auto')};
-`
-
-const TimeTag = styled.p`
-  font-size: 14px;
-  width: 20%;
-  margin: 0;
-  line-height: 80px;
+  height: auto;
 `
 
 const MainInfo = styled.div`
-  display: ${(props) => (props.isFromHome ? 'flex' : 'block')};
+  display: block;
   width: 100%;
-  align-items: center;
-  justify-content: space-evenly;
   pointer-events: none;
   ${MainInfo} div {
     display: flex;
@@ -124,7 +99,6 @@ const DeleteBtn = styled.button`
 
 PillCard.propTypes = {
   pill: PropTypes.object.isRequired,
-  isFromHome: PropTypes.bool,
 }
 
 export default PillCard

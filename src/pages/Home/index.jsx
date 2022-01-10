@@ -53,7 +53,7 @@ const Home = () => {
 
     // 시간 순 sorting
     setDayPills(
-      weekdayPills[dayOffset + 1]?.sort(
+      weekdayPills[dayOffset]?.sort(
         (a, b) =>
           parseInt(a.freqTime.split(':').join('')) - parseInt(b.freqTime.split(':').join('')),
       ),
