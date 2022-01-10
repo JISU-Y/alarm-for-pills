@@ -15,6 +15,8 @@ const dayOfWeek = {
 }
 
 const WeeklyPill = ({ pills }) => {
+  if (!pills) return
+
   return (
     <>
       <Title title="Weekly" infoText="" toggle={false} />

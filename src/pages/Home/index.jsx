@@ -3,21 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import Timeline from '../../components/organisms/Timeline'
 import WeekContainer from '../../components/organisms/WeeklyPill'
-import { fetchPillsWeek } from '../../redux'
 
 const Home = () => {
-  const dispatch = useDispatch()
   const pills = useSelector((state) => state.pills.pills)
   const loading = useSelector((state) => state.pills.loading)
   const weeklyPills = useSelector((state) => state.pills.weeklyPills)
   const [weekdayPills, setWeekdayPills] = useState([...weeklyPills])
   const [dayPills, setDayPills] = useState(null)
-
-  useEffect(() => {
-    dispatch(fetchPillsWeek())
-  }, [])
-
-  console.log(loading)
 
   useEffect(() => {
     const filteredPills = pills.filter((pill) => pill.freqDay !== 0)
@@ -49,7 +41,7 @@ const Home = () => {
 
   useEffect(() => {
     const today = new Date()
-    const dayOffset = today.getDay() === 0 ? 6 : today.getDay() - 1 // 일요일 7로 바꿈
+    const dayOffset = today.getDay() === 0 ? 6 : today.getDay() - 1 // 일요일 6로 바꿈
 
     // 시간 순 sorting
     setDayPills(
@@ -62,7 +54,7 @@ const Home = () => {
 
   return (
     <Container>
-      <WeekContainer pills={weekdayPills} />
+      <WeekContainer pills={weekdayPills ?? []} />
       <Timeline pills={dayPills ?? []} />
     </Container>
   )

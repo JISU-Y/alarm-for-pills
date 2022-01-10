@@ -2,10 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import TitleText from '../../atoms/TitleText'
+import { useDispatch } from 'react-redux'
+import { updatePill } from '../../../redux'
 
 const PillCardSmall = ({ pill }) => {
+  console.log(pill)
+  const dispatch = useDispatch()
+
+  const completePill = () => {
+    dispatch(updatePill({ ...pill, left: pill.left - pill.freqMany }))
+  }
+
   return (
-    <Card>
+    <Card onClick={completePill}>
       <TimeTag>{pill.freqTime}시</TimeTag>
       <MainInfo>
         <div>
@@ -36,6 +45,7 @@ const TimeTag = styled.p`
   width: 20%;
   margin: 0;
   line-height: 80px;
+  pointer-events: none;
 `
 
 const MainInfo = styled.div`

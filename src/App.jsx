@@ -7,13 +7,14 @@ import MyInfo from './pages/MyInfo'
 import PillSetting from './pages/PillSetting'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { fetchPills } from './redux'
+import { fetchPills, fetchPillsWeek } from './redux'
 
 const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchPills())
+    dispatch(fetchPillsWeek())
   }, [])
 
   return (
