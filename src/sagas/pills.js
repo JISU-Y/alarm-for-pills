@@ -60,7 +60,6 @@ function* getPills() {
     const pillList = []
     querySnapshot.forEach((doc) => {
       pillList.push({ id: doc.id, ...doc.data() })
-      console.log(`${doc.id} => ${doc.data()}`)
     })
 
     yield put({ type: FETCH_PILLS_SUCCESS, payload: pillList })
@@ -109,21 +108,6 @@ function* deletePill(action) {
 
 function* getPillsWeek() {
   try {
-    const collRef = collection(db, 'pills')
-
-    // 요일 하나만 가져오기
-    // const q = yield call(
-    //   query,
-    //   collRef,
-    //   where('freqWeekdays', 'array-contains-any', action.payload),
-    // )
-
-    // const querySnapshots = yield call(getDocs, q)
-
-    // const docData = []
-
-    // const docData = querySnapshots.map((doc) => doc.data())
-
     const dayOfWeek = {
       월: 1,
       화: 2,
@@ -134,18 +118,56 @@ function* getPillsWeek() {
       일: 7,
     }
 
+    const collRef = collection(db, 'pills')
+
+    // get all pills
+    const querySnapshot = yield call(getDocs, collRef)
+    const pills = []
+    querySnapshot.forEach((doc) => {
+      pills.push({ id: doc.id, ...doc.data() })
+    })
+
+    // get pills for eact day
     const queries = yield all(
       Object.keys(dayOfWeek).map((day) =>
         call(query, collRef, where('freqWeekdays', 'array-contains-any', [day])),
       ),
     )
     const querySnapshots = yield all(queries.map((q) => call(getDocs, q)))
-
-    const docData = querySnapshots.map((querySnapshot) =>
+    let pillsEachday = querySnapshots.map((querySnapshot) =>
       querySnapshot.docs.map((doc) => doc.data()),
     )
 
-    yield put({ type: WEEK_PILL_SUCCESS, payload: docData })
+    const filteredPills = pills.filter((pill) => pill.freqDay !== 0)
+    console.log(filteredPills)
+    filteredPills.forEach((pill, index) => {
+      if (pill.freqDay === '1' || pill.freqDay === 1) {
+        console.log(pill)
+        pillsEachday = pillsEachday.map((eachDay) => [...eachDay, pill])
+      } else {
+        // 생성 날짜로부터 오늘날짜 기준 월~일에 어느 때 먹어야 하는지 계산
+        const today = new Date()
+        const pillDayArr = pill.created?.toDate().toLocaleDateString('ko-KO').split('. ')
+
+        const [year, month, day] = [today.getFullYear(), today.getMonth() + 1, today.getDate()]
+        const dayOffset = today.getDay() === 0 ? 6 : today.getDay() - 1 // 일요일 6로 바꿈
+
+        const thenDate = new Date(...pillDayArr)
+        const monDate = new Date(year, month, day - dayOffset) // 그 주의 월요일만 구함
+
+        const btMs = monDate.getTime() - thenDate.getTime()
+        const btDay = btMs / (1000 * 60 * 60 * 24)
+
+        if ((btDay + index) % Number(pill.freqDay) === 0) {
+          pillsEachday[index] = [...pillsEachday[index], pill]
+          console.log(pill)
+        }
+      }
+    })
+
+    console.log(pillsEachday)
+
+    yield put({ type: WEEK_PILL_SUCCESS, payload: pillsEachday })
   } catch (error) {
     console.log(error)
     yield put({ type: WEEK_PILL_FAILURE, payload: error.message })
