@@ -139,10 +139,8 @@ function* getPillsWeek() {
     )
 
     const filteredPills = pills.filter((pill) => pill.freqDay !== 0)
-    console.log(filteredPills)
     filteredPills.forEach((pill, index) => {
       if (pill.freqDay === '1' || pill.freqDay === 1) {
-        console.log(pill)
         pillsEachday = pillsEachday.map((eachDay) => [...eachDay, pill])
       } else {
         // 생성 날짜로부터 오늘날짜 기준 월~일에 어느 때 먹어야 하는지 계산
@@ -160,12 +158,9 @@ function* getPillsWeek() {
 
         if ((btDay + index) % Number(pill.freqDay) === 0) {
           pillsEachday[index] = [...pillsEachday[index], pill]
-          console.log(pill)
         }
       }
     })
-
-    console.log(pillsEachday)
 
     yield put({ type: WEEK_PILL_SUCCESS, payload: pillsEachday })
   } catch (error) {

@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { updatePill } from '../../../redux'
 
 const PillCardSmall = ({ pill }) => {
-  console.log(pill)
   const dispatch = useDispatch()
 
   const completePill = () => {
