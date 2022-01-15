@@ -53,7 +53,6 @@ const pillsReducer = (state = initialState, action) => {
       return { ...state, loading: true }
     case FETCH_PILLS_SUCCESS:
       console.log('fetch success')
-      console.log(action.payload)
       return { ...state, loading: false, pills: [...action.payload] }
     case FETCH_PILLS_FAILURE:
       console.log('fetch failed')
